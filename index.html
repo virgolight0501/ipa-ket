@@ -1,0 +1,2068 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cambridge KET - IPA Pronunciation Masterclass</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-heading {
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    @keyframes soundwave {
+      0%, 100% { height: 4px; }
+      50% { height: 18px; }
+    }
+    .wave-bar-1 { animation: soundwave 0.7s infinite ease-in-out; }
+    .wave-bar-2 { animation: soundwave 0.7s infinite ease-in-out 0.2s; }
+    .wave-bar-3 { animation: soundwave 0.7s infinite ease-in-out 0.4s; }
+    .playing-glow {
+      box-shadow: 0 0 25px rgba(99, 102, 241, 0.45);
+      border-color: #6366f1 !important;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col custom-scrollbar">
+
+  <!-- Header with Live Speaker Check & Progress -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        <!-- Logo -->
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-amber-400 flex items-center justify-center shadow-lg shadow-indigo-200 text-white font-heading font-black text-xl">
+            /æ/
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-heading font-bold text-lg sm:text-xl text-slate-900 tracking-tight">IPA HEROES</span>
+              <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">Cambridge KET A2</span>
+            </div>
+            <p class="text-xs text-slate-500 hidden sm:block">Chuyên đề Phát âm & Bảng 44 Âm Kèm Audio Độc Lập</p>
+          </div>
+        </div>
+
+        <!-- Student Progress & Audio Engine Tools -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Speaker Tester Button -->
+          <button onclick="testSpeakerSound()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 text-xs sm:text-sm font-bold transition shadow-xs" title="Bấm vào để kích hoạt và thử loa thiết bị">
+            <span>🔊</span>
+            <span class="hidden sm:inline">Thử Loa</span>
+          </button>
+
+          <!-- Voice Switcher -->
+          <button id="btn-audio-voice" onclick="toggleAccent()" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs sm:text-sm font-semibold transition" title="Đổi giọng phát âm chuẩn">
+            <span id="voice-flag">🇬🇧 UK</span>
+          </button>
+
+          <!-- Gamification Badges -->
+          <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs sm:text-sm font-semibold">
+            <span>⚡ XP:</span>
+            <span id="user-xp" class="font-bold text-indigo-900">0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="bg-white border-b border-slate-200 sticky top-16 sm:top-20 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex space-x-2 sm:space-x-4 overflow-x-auto py-2.5 no-scrollbar">
+        <button onclick="switchTab('chart')" id="tab-btn-chart" class="tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition bg-indigo-600 text-white shadow-sm shadow-indigo-200">
+          🎙️ 1. Bảng 44 Âm IPA (Nghe Âm Đơn Lẻ)
+        </button>
+        <button onclick="switchTab('theory')" id="tab-btn-theory" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
+          📘 2. Bản Đồ Lý Thuyết KET
+        </button>
+        <button onclick="switchTab('howtoread')" id="tab-btn-howtoread" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
+          🚀 3. Bí Kíp Đọc & Trọng Âm
+        </button>
+        <button onclick="switchTab('practice')" id="tab-btn-practice" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
+          🏆 4. Đấu Trường 43 Phiên Âm
+        </button>
+        <button onclick="switchTab('stresslab')" id="tab-btn-stresslab" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap transition text-slate-600 hover:bg-slate-100">
+          🧪 5. Phòng Thí Nghiệm Âm Tiết
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+
+    <!-- SECTION 1: 44 IPA CHART (NOW WITH DIRECT SYNTHESIZER AUDIO) -->
+    <div id="section-chart" class="tab-content space-y-6">
+      
+      <!-- Interactive Header & Action Control Center -->
+      <div class="bg-white p-6 sm:p-7 rounded-3xl border border-slate-200 shadow-sm space-y-5">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+          <div class="space-y-1">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+              <span>⚡ Hệ Thống Âm Thanh Độc Lập Hoạt Động 100%</span>
+            </div>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">
+              BẢNG 44 ÂM IPA CHUẨN QUỐC TẾ (CAMBRIDGE KET)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Bấm nút <span class="px-2 py-0.5 rounded-lg bg-indigo-600 text-white font-bold text-xs">🔊 ÂM ĐƠN</span> để nghe <strong>chính xác âm vị cô lập</strong> (không bị dính chữ cái), hoặc bấm <span class="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs">💬 TỪ VÍ DỤ</span> để nghe âm được ghép vào từ vựng KET!
+            </p>
+          </div>
+
+          <!-- Quick Audio Training Mini-App Trigger -->
+          <div class="flex items-center gap-2 shrink-0">
+            <button onclick="toggleEarTrainingModal()" class="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold text-xs sm:text-sm shadow-md shadow-amber-200 flex items-center gap-2 transition active:scale-95">
+              <span>🎯 Thử Thách Luyện Tai</span>
+              <span class="px-2 py-0.5 bg-black/20 rounded-full text-[11px]">+XP</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Buttons -->
+        <div class="flex flex-wrap items-center gap-2 pt-3 border-t border-slate-100 text-xs sm:text-sm font-semibold">
+          <span class="text-slate-400 text-xs mr-1 font-bold">Lọc theo nhóm:</span>
+          <button onclick="filterIPAGrid('all')" id="filter-btn-all" class="ipa-filter-btn active px-3.5 py-1.5 rounded-xl bg-slate-900 text-white shadow-xs transition">
+            Tất Cả (44)
+          </button>
+          <button onclick="filterIPAGrid('mono')" id="filter-btn-mono" class="ipa-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+            12 Nguyên Âm Đơn
+          </button>
+          <button onclick="filterIPAGrid('diph')" id="filter-btn-diph" class="ipa-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+            8 Nguyên Âm Đôi
+          </button>
+          <button onclick="filterIPAGrid('cons')" id="filter-btn-cons" class="ipa-filter-btn px-3.5 py-1.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition">
+            24 Phụ Âm
+          </button>
+          <button onclick="filterIPAGrid('unvoiced')" id="filter-btn-unvoiced" class="ipa-filter-btn px-3.5 py-1.5 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition">
+            💨 Vô Thanh
+          </button>
+          <button onclick="filterIPAGrid('voiced')" id="filter-btn-voiced" class="ipa-filter-btn px-3.5 py-1.5 rounded-xl bg-teal-50 text-teal-700 hover:bg-teal-100 border border-teal-200 transition">
+            🔔 Hữu Thanh
+          </button>
+          <button onclick="filterIPAGrid('long')" id="filter-btn-long" class="ipa-filter-btn px-3.5 py-1.5 rounded-xl bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 transition">
+            ⏳ Âm Dài /ː/
+          </button>
+        </div>
+      </div>
+
+      <!-- Interactive Studio Detail Panel -->
+      <div id="sound-modal" class="hidden rounded-3xl bg-slate-900 text-white p-6 sm:p-8 shadow-2xl relative border-2 border-indigo-500/50 overflow-hidden">
+        <button onclick="closeSoundModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-2xl p-2 rounded-full hover:bg-slate-800 transition">✕</button>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <!-- Sound Identity Column -->
+          <div class="lg:col-span-4 flex flex-col items-center sm:items-start text-center sm:text-left gap-3 border-b lg:border-b-0 lg:border-r border-slate-800 pb-5 lg:pb-0 lg:pr-6">
+            <div class="flex items-center gap-4">
+              <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-4xl sm:text-5xl font-extrabold shadow-xl text-white relative group" id="modal-symbol-box">
+                <span id="modal-symbol">/iː/</span>
+                <!-- Playing Wave Indicator -->
+                <div id="modal-wave-anim" class="hidden absolute bottom-2 flex items-end gap-1">
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar-1"></span>
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar-2"></span>
+                  <span class="w-1 bg-amber-400 rounded-full wave-bar-3"></span>
+                </div>
+              </div>
+              <div class="space-y-1">
+                <h3 id="modal-name" class="font-heading text-xl sm:text-2xl font-bold text-amber-300">Âm "i dài"</h3>
+                <span id="modal-type" class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/10 text-slate-200">Nguyên âm đơn dài</span>
+              </div>
+            </div>
+
+            <!-- Master Play Controls -->
+            <div class="w-full flex flex-col gap-2 pt-2">
+              <button id="modal-play-sound-btn" class="w-full py-3 px-4 rounded-2xl bg-indigo-500 hover:bg-indigo-600 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition active:scale-95">
+                <span>🔊 1. Nghe Riêng Âm Này (Isolated Sound)</span>
+              </button>
+              <div class="grid grid-cols-2 gap-2">
+                <button id="modal-play-word-btn" class="py-2.5 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 font-semibold text-xs border border-slate-700 flex items-center justify-center gap-1 transition">
+                  <span>💬 2. Nghe Từ Ví Dụ</span>
+                </button>
+                <button id="modal-play-combo-btn" class="py-2.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs flex items-center justify-center gap-1 transition">
+                  <span>🔁 3. Ghép [Âm ➔ Từ]</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Articulatory Guide & Mouth Position -->
+          <div class="lg:col-span-5 space-y-4">
+            <div>
+              <span class="text-xs uppercase font-mono tracking-wider text-indigo-400 font-bold">Khẩu Hình Miệng & Vị Trí Phát Âm:</span>
+              <p id="modal-guide" class="text-sm text-slate-300 leading-relaxed mt-1">
+                Kéo dài âm 'i', phát âm trong khoang miệng. Môi mở rộng như đang mỉm cười, lưỡi nâng cao.
+              </p>
+            </div>
+
+            <!-- Mouth, Tongue, Vibration Indicators -->
+            <div class="grid grid-cols-3 gap-2.5 pt-1">
+              <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-center">
+                <span class="text-xs text-slate-400 block mb-0.5">Khẩu hình Môi</span>
+                <span id="modal-lip-shape" class="text-xs font-bold text-amber-300">Dẹt mỉm cười</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-center">
+                <span class="text-xs text-slate-400 block mb-0.5">Vị trí Lưỡi</span>
+                <span id="modal-tongue-pos" class="text-xs font-bold text-sky-300">Nâng cao khoang trước</span>
+              </div>
+              <div class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/80 text-center">
+                <span class="text-xs text-slate-400 block mb-0.5">Dây Thanh Quản</span>
+                <span id="modal-vocal-cord" class="text-xs font-bold text-emerald-300">Rung (Voiced)</span>
+              </div>
+            </div>
+
+            <!-- Vocabulary Examples -->
+            <div class="space-y-1.5 pt-1">
+              <span class="text-xs text-slate-400 font-semibold">Các từ vựng KET tiêu biểu:</span>
+              <div id="modal-examples" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+
+          <!-- Minimal Pairs / Contrast Trainer Column -->
+          <div class="lg:col-span-3 bg-slate-950/60 p-4 rounded-2xl border border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-mono text-amber-400 font-bold uppercase tracking-wider">Cặp Âm Dễ Nhầm:</span>
+              <span class="text-[10px] text-slate-400">Minimal Pair</span>
+            </div>
+            <div id="modal-contrast-box" class="space-y-2"></div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Sound Grid Sections -->
+      <div class="space-y-8" id="ipa-main-grid-wrapper">
+
+        <!-- 1. Monophthongs Group -->
+        <div id="group-mono" class="ipa-group-section space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-indigo-500"></span>
+              <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-900">12 NGUYÊN ÂM ĐƠN (Monophthongs)</h3>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200">Âm dài /ː/ & Âm ngắn</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3" id="monophthongs-grid"></div>
+        </div>
+
+        <!-- 2. Diphthongs Group -->
+        <div id="group-diph" class="ipa-group-section space-y-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-sky-500"></span>
+              <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-900">8 NGUYÊN ÂM ĐÔI (Diphthongs)</h3>
+            </div>
+            <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-sky-50 text-sky-700 border border-sky-200">Trượt từ âm 1 sang âm 2</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3" id="diphthongs-grid"></div>
+        </div>
+
+        <!-- 3. Consonants Group -->
+        <div id="group-cons" class="ipa-group-section space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+              <h3 class="font-heading text-lg sm:text-xl font-bold text-slate-900">24 PHỤ ÂM (Consonants)</h3>
+            </div>
+            <div class="flex items-center gap-3 text-xs font-medium text-slate-600">
+              <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span> 💨 Vô thanh</span>
+              <span class="inline-flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> 🔔 Hữu thanh</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-3" id="consonants-grid"></div>
+        </div>
+
+      </div>
+
+      <!-- Interactive Ear Training Modal Overlay -->
+      <div id="ear-training-modal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 space-y-6 shadow-2xl relative">
+          <button onclick="toggleEarTrainingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 text-xl p-2">✕</button>
+          
+          <div class="text-center space-y-1">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800">🎯 Mini-Game Luyện Tai KET</span>
+            <h3 class="font-heading text-2xl font-bold text-slate-900 mt-2">Đoán Âm IPA Bạn Vừa Nghe</h3>
+            <p class="text-xs text-slate-500">Bấm nút loa để nghe âm đơn lẻ, sau đó chọn ký hiệu IPA chính xác!</p>
+          </div>
+
+          <!-- Mystery Audio Button -->
+          <div class="p-6 bg-slate-900 rounded-3xl text-center space-y-3">
+            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center mx-auto text-2xl shadow-lg animate-pulse cursor-pointer" onclick="playEarTrainingAudio()">
+              🔊
+            </div>
+            <p class="text-xs text-amber-300 font-semibold">Chạm vào nút loa để nghe lại âm</p>
+          </div>
+
+          <!-- 4 Answer Buttons -->
+          <div class="grid grid-cols-2 gap-3" id="ear-training-options"></div>
+
+          <div id="ear-feedback" class="text-center min-h-[24px] text-xs font-bold"></div>
+
+          <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs text-slate-500">
+            <span>Điểm tích lũy: <strong class="text-indigo-600 font-bold" id="ear-score">0</strong></span>
+            <button onclick="generateEarTrainingQuestion()" class="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold transition">
+              Đổi Âm Khác ➔
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2: THEORY -->
+    <div id="section-theory" class="tab-content hidden space-y-8">
+      <!-- Hero Banner -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-indigo-700 via-indigo-600 to-purple-700 p-6 sm:p-10 text-white shadow-xl shadow-indigo-100">
+        <div class="relative z-10 max-w-3xl space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur text-xs sm:text-sm font-semibold text-amber-300">
+            <span>✨ Chuẩn Bị Cho Cambridge KET A2</span>
+          </div>
+          <h1 class="font-heading text-2xl sm:text-4xl font-extrabold tracking-tight">
+            Khám Phá Bản Chất Phát Âm: Tiếng Việt vs Tiếng Anh
+          </h1>
+          <p class="text-indigo-100 text-sm sm:text-base leading-relaxed">
+            Nắm vững bản chất "Bảng Chữ Cái" và "Bảng Phiên Âm" là chìa khóa vàng giúp bạn nghe - nói tự tin đạt điểm tuyệt đối bài thi KET!
+          </p>
+        </div>
+        <div class="absolute -right-10 -bottom-10 opacity-15 pointer-events-none text-9xl font-black">
+          IPA
+        </div>
+      </div>
+
+      <!-- Comparison Cards: VN vs EN -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Vietnamese Card -->
+        <div class="rounded-3xl p-6 sm:p-7 bg-white border border-slate-200/80 shadow-md space-y-5 hover:border-amber-400 transition">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🇻🇳</span>
+              <div>
+                <h2 class="font-heading text-xl font-bold text-slate-800">TIẾNG VIỆT</h2>
+                <span class="text-xs text-slate-500">Ngôn ngữ đơn lập, ghi âm trực tiếp</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-lg border border-emerald-200">Dễ dự đoán</span>
+          </div>
+
+          <ul class="space-y-4 text-sm sm:text-base">
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
+              <div>
+                <p class="font-semibold text-slate-800">BẢNG TỪ VÀ BẢNG ÂM LÀ 1</p>
+                <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Viết như thế nào &rarr; Đọc chuẩn như thế đó (Mặt chữ chính là âm đọc).</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
+              <div>
+                <p class="font-semibold text-slate-800">HỆ THỐNG TỪ ĐƠN (Monosyllabic)</p>
+                <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Mỗi từ đơn lẻ chỉ mang đúng <strong>1 âm tiết (SYLLABLE)</strong>.</p>
+                <div class="mt-2 inline-block px-3 py-1.5 rounded-xl bg-slate-100 font-mono text-xs text-slate-700">
+                  Ví dụ: <strong>Máy Tính</strong> (2 words = 2 syllables riêng biệt)
+                </div>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
+              <div>
+                <p class="font-semibold text-slate-800">KHÔNG CÓ DẤU NHẤN TỪ (Word Stress)</p>
+                <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Tiếng Việt dùng <strong>6 thanh điệu</strong> (ngang, huyền, sắc, hỏi, ngã, nặng) chứ không có dấu nhấn rơi vào 1 âm tiết trong từ.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <!-- English Card -->
+        <div class="rounded-3xl p-6 sm:p-7 bg-white border border-slate-200/80 shadow-md space-y-5 hover:border-indigo-400 transition">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-4">
+            <div class="flex items-center gap-3">
+              <span class="text-3xl">🇬🇧</span>
+              <div>
+                <h2 class="font-heading text-xl font-bold text-slate-800">ENGLISH (TIẾNG ANH)</h2>
+                <span class="text-xs text-slate-500">Ngôn ngữ đa âm tiết, phiên âm IPA</span>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold rounded-lg border border-indigo-200">Cần tra IPA</span>
+          </div>
+
+          <ul class="space-y-4 text-sm sm:text-base">
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">1</span>
+              <div>
+                <p class="font-semibold text-slate-800">BẢNG TỪ VÀ BẢNG ÂM KHÁC NHAU</p>
+                <p class="text-slate-600 text-xs sm:text-sm mt-0.5"><span class="text-rose-600 font-bold">"Viết một đường – Đọc một nẻo"</span>. Cùng chữ 'a' có thể đọc là /æ/ (cat), /ɑː/ (far), /eɪ/ (day), hay /ə/ (banana).</p>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">2</span>
+              <div>
+                <p class="font-semibold text-slate-800">HỆ THỐNG TỪ "PHỨC" (Polysyllabic)</p>
+                <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Một từ có thể chứa từ 1 đến 5-6 âm tiết liên kết với nhau.</p>
+                <div class="mt-2 inline-block px-3 py-1.5 rounded-xl bg-slate-100 font-mono text-xs text-slate-700">
+                  Ví dụ: <strong>Computer</strong> (1 word &rarr; 3 syllables: /kəmˈpjuː.tə/)
+                </div>
+              </div>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5">3</span>
+              <div>
+                <p class="font-semibold text-slate-800">CÓ DẤU NHẤN TỪ (WORD STRESS /ˈ/)</p>
+                <p class="text-slate-600 text-xs sm:text-sm mt-0.5">Âm tiết được nhấn sẽ đọc to hơn, cao hơn, dài hơn. Không có trọng âm người bản xứ sẽ không hiểu bạn đang nói gì!</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 3: HOW TO READ & STRESS -->
+    <div id="section-howtoread" class="tab-content hidden space-y-8">
+      
+      <!-- Top Guide -->
+      <div class="rounded-3xl bg-white p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div class="max-w-3xl space-y-2">
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+            Bí Kíp Độc Quyền Dành Cho Teen KET
+          </span>
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">
+            LÀM SAO ĐỂ ĐỌC ĐƯỢC PHIÊN ÂM? (HOW TO READ?)
+          </h2>
+          <p class="text-slate-600 text-sm sm:text-base">
+            Nhìn một chuỗi phiên âm dài ngoằng như <code class="px-2 py-0.5 bg-slate-100 rounded text-indigo-600 font-mono font-bold">/kənˌteks.tʃu.ə.laɪˈzeɪ.ʃən/</code> khiến bạn bối rối? Hãy áp dụng 3 bước chuẩn hóa sau:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Step 1 -->
+          <div class="rounded-2xl p-5 bg-gradient-to-b from-sky-50 to-white border border-sky-200 space-y-3">
+            <div class="w-8 h-8 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-sm">1</div>
+            <h3 class="font-heading font-bold text-slate-800">Xác Định Số Lượng Âm Tiết</h3>
+            <p class="text-xs sm:text-sm text-slate-600">Đọc to từ đó lên &rarr; đếm số luồng bật ra. Nhưng có một công thức bất bại:</p>
+            <div class="p-3 bg-emerald-500 text-white rounded-xl text-xs font-bold shadow-sm">
+              🌟 QUY TẮC VÀNG:<br>
+              "TRONG MỘT TỪ, CỨ CÓ 1 NGUYÊN ÂM &rarr; SẼ CÓ 1 ÂM TIẾT!"
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="rounded-2xl p-5 bg-gradient-to-b from-indigo-50 to-white border border-indigo-200 space-y-3">
+            <div class="w-8 h-8 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">2</div>
+            <h3 class="font-heading font-bold text-slate-800">Cơ Chế Ghép Âm Y Chang Tiếng Việt</h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              - <strong>Nguyên âm</strong> có thể đứng 1 mình.<br>
+              - <strong>Phụ âm</strong> không đứng 1 mình được.<br>
+              - <strong>Cách đọc 1 âm tiết:</strong> Đọc nguyên âm/vần trước &rarr; Ghép phụ âm đằng trước và bật phụ âm đuôi (ending sound)!
+            </p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="rounded-2xl p-5 bg-gradient-to-b from-purple-50 to-white border border-purple-200 space-y-3">
+            <div class="w-8 h-8 rounded-full bg-purple-600 text-white font-bold flex items-center justify-center text-sm">3</div>
+            <h3 class="font-heading font-bold text-slate-800">Quy Tắc Nhấn Trọng Âm</h3>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Không có quy tắc nào 100% bao quát hết mọi từ trong tiếng Anh. Cách bền vững nhất: Tra từ điển Oxford/Cambridge + Nhận diện dấu phẩy trên đầu: <code class="font-bold text-purple-700">/ˈ/</code>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tone Formula -->
+      <div class="rounded-3xl bg-gradient-to-br from-amber-500 via-amber-400 to-orange-500 p-6 sm:p-8 text-slate-950 shadow-xl shadow-amber-200/50 space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-amber-600/30 pb-4">
+          <div>
+            <span class="px-3 py-1 rounded-full bg-black text-amber-300 font-bold text-xs uppercase tracking-wider">Mẹo Bất Hủ Của Thầy Cô</span>
+            <h3 class="font-heading text-2xl sm:text-3xl font-black mt-1">CÔNG THỨC: "DẤU SẮC & DẤU HUYỀN / NẶNG"</h3>
+          </div>
+          <div class="px-4 py-2 bg-white/90 backdrop-blur rounded-2xl font-mono text-xs sm:text-sm font-bold text-slate-900">
+            Word Stress = Stressed + Unstressed
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white rounded-2xl p-6 shadow-sm space-y-3 border border-amber-200">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-xl bg-rose-500 text-white font-bold flex items-center justify-center">´</span>
+              <h4 class="font-heading font-bold text-lg text-slate-900">STRESSED PART (Âm Được Nhấn)</h4>
+            </div>
+            <p class="text-sm text-slate-700 font-medium leading-relaxed">
+              Tại âm tiết có dấu <code class="font-bold text-rose-600">/ˈ/</code> đứng trước: Hãy tưởng tượng ta <strong class="text-rose-600 text-base">THÊM DẤU SẮC</strong> (hoặc giữ nguyên không dấu)!
+            </p>
+            <div class="p-3 bg-rose-50 rounded-xl text-xs text-rose-900 font-medium">
+              Ví dụ: Âm /pjuː/ trong "computer" &rarr; đọc cao vút như chữ <strong>"PIÚ"</strong>!
+            </div>
+          </div>
+
+          <div class="bg-white rounded-2xl p-6 shadow-sm space-y-3 border border-amber-200">
+            <div class="flex items-center gap-2">
+              <span class="w-8 h-8 rounded-xl bg-slate-700 text-white font-bold flex items-center justify-center">`</span>
+              <h4 class="font-heading font-bold text-lg text-slate-900">UNSTRESSED PART (Âm Không Nhấn)</h4>
+            </div>
+            <p class="text-sm text-slate-700 font-medium leading-relaxed">
+              Các âm tiết còn lại: Hãy tưởng tượng ta <strong class="text-slate-800 text-base">THÊM DẤU HUYỀN HOẶC DẤU NẶNG</strong> vào để hạ thấp cao độ!
+            </p>
+            <div class="p-3 bg-slate-100 rounded-xl text-xs text-slate-800 font-medium">
+              Ví dụ: Âm /kəm/ & /tə/ &rarr; đọc trầm xuống như <strong>"CỜM"</strong> và <strong>"TỜ"</strong>!
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Case Study -->
+        <div class="bg-slate-950 text-white rounded-2xl p-5 sm:p-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-mono uppercase tracking-widest text-amber-400">CASE STUDY THỰC CHIẾN</span>
+            <button onclick="playWordExample('computer')" class="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 text-xs font-bold transition flex items-center gap-1.5">
+              🔊 Nghe Thử Âm Điệu
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 sm:gap-6 text-center">
+            <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex-1 min-w-[120px]">
+              <span class="text-xs text-slate-400 block mb-1">Mặt chữ</span>
+              <span class="font-heading font-bold text-lg text-white">Computer</span>
+            </div>
+            <span class="text-amber-400 font-bold text-xl">&rarr;</span>
+            <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 flex-1 min-w-[140px]">
+              <span class="text-xs text-slate-400 block mb-1">Phiên âm IPA</span>
+              <span class="font-mono text-base text-indigo-300">/kəmˈpjuː.tə/</span>
+            </div>
+            <span class="text-amber-400 font-bold text-xl">&rarr;</span>
+            <div class="p-3 rounded-xl bg-amber-400/10 border border-amber-400/30 flex-1 min-w-[160px]">
+              <span class="text-xs text-amber-300 block mb-1">Mẹo Việt Hóa</span>
+              <span class="font-heading font-black text-lg text-amber-300">"Cờm - PIÚ - tờ"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 4: 43 PRACTICE CHALLENGES -->
+    <div id="section-practice" class="tab-content hidden space-y-6">
+      
+      <!-- Practice Header -->
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 mb-2">
+              🎯 Cambridge KET Vocabulary Set
+            </div>
+            <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900">
+              ĐẤU TRƯỜNG: 43 THỬ THÁCH GIẢI MÃ PHIÊN ÂM
+            </h2>
+            <p class="text-sm text-slate-500">
+              Nhìn phiên âm IPA chuẩn từ phiếu học tập, gõ từ tiếng Anh tương ứng hoặc chuyển sang chế độ danh sách để tra cứu!
+            </p>
+          </div>
+          
+          <div class="flex items-center gap-3">
+            <button onclick="togglePracticeMode('quiz')" id="mode-quiz-btn" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-sm">
+              🎮 Chế Độ Thử Thách
+            </button>
+            <button onclick="togglePracticeMode('list')" id="mode-list-btn" class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200">
+              📋 Danh Sách Cả 43 Từ
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="flex flex-wrap items-center justify-between gap-3 pt-4 border-t border-slate-100">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-slate-400">Tiến độ:</span>
+            <div class="w-32 sm:w-48 bg-slate-100 rounded-full h-2.5 overflow-hidden">
+              <div id="practice-progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+            <span id="practice-progress-text" class="text-xs font-bold text-indigo-700">0/43</span>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <input type="text" id="practice-search" oninput="filterPracticeList()" placeholder="Tìm phiên âm hoặc từ..." class="px-3.5 py-1.5 rounded-xl border border-slate-200 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 w-44 sm:w-60">
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Single Card Challenge -->
+      <div id="practice-interactive-arena" class="space-y-6">
+        <div class="max-w-2xl mx-auto rounded-3xl bg-white border-2 border-indigo-200 p-6 sm:p-10 shadow-xl shadow-indigo-100/50 text-center space-y-6 relative overflow-hidden">
+          
+          <div class="flex items-center justify-between text-xs font-bold text-slate-400">
+            <span id="card-index-indicator">CÂU HỎI: #1 / 43</span>
+            <span id="card-status-badge" class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-600">Chưa giải</span>
+          </div>
+
+          <!-- The Big IPA Display -->
+          <div class="py-6 space-y-2">
+            <span class="text-xs font-semibold text-indigo-500 tracking-wider uppercase">Phiên âm IPA cần giải mã:</span>
+            <div id="card-ipa" class="font-mono text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-wide select-all">
+              /kæt/
+            </div>
+            <button onclick="playCurrentCardAudio()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-50 hover:bg-indigo-100 text-indigo-700 text-xs font-bold transition mt-2">
+              🔊 Nghe Phát Âm Mẫu
+            </button>
+          </div>
+
+          <!-- Input Field -->
+          <div class="space-y-3 max-w-md mx-auto">
+            <div class="relative">
+              <input type="text" id="card-user-input" onkeydown="handleInputKeydown(event)" placeholder="Gõ từ tiếng Anh tại đây... (VD: cat)" class="w-full text-center px-4 py-3 rounded-2xl border-2 border-slate-300 text-lg font-bold text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 transition" autocomplete="off">
+            </div>
+
+            <!-- Feedback message -->
+            <div id="card-feedback" class="min-h-[24px] text-xs sm:text-sm font-bold"></div>
+
+            <div class="flex items-center justify-center gap-3">
+              <button onclick="checkCurrentAnswer()" class="flex-1 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-md shadow-indigo-200 transition active:scale-95">
+                Kiểm Tra Đáp Án ✨
+              </button>
+              <button onclick="showCurrentHint()" class="px-4 py-3 rounded-2xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-bold text-sm border border-amber-200 transition">
+                💡 Gợi Ý
+              </button>
+            </div>
+          </div>
+
+          <!-- Bottom Navigation for Cards -->
+          <div class="flex items-center justify-between pt-6 border-t border-slate-100 text-xs font-bold">
+            <button onclick="navigateCard(-1)" class="px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 transition">
+              ← Câu Trước
+            </button>
+            <button onclick="jumpToRandomCard()" class="px-3 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700">
+              🎲 Ngẫu nhiên
+            </button>
+            <button onclick="navigateCard(1)" class="px-3 py-2 rounded-xl text-indigo-600 hover:bg-indigo-50 transition">
+              Câu Kế Tiếp →
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode 2: Full List of 43 Practice Items -->
+      <div id="practice-list-arena" class="hidden bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3" id="all-practice-grid"></div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 5: STRESS LAB -->
+    <div id="section-stresslab" class="tab-content hidden space-y-6">
+      
+      <div class="rounded-3xl bg-white p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <div>
+          <span class="px-3 py-1 rounded-full text-xs font-bold bg-purple-100 text-purple-800">Phòng Thí Nghiệm Phát Âm</span>
+          <h2 class="font-heading text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">
+            TRẠM PHÂN TÍCH ÂM TIẾT & CAO ĐỘ TRỌNG ÂM
+          </h2>
+          <p class="text-slate-500 text-sm">
+            Thử nghiệm công thức "Dấu Sắc (cao) - Dấu Huyền (trầm)" trên các từ vựng KET quen thuộc!
+          </p>
+        </div>
+
+        <!-- Playground Selectors -->
+        <div class="flex flex-wrap gap-2" id="preset-words-container"></div>
+
+        <!-- Custom Word Lab Box -->
+        <div class="p-6 rounded-3xl bg-slate-900 text-white space-y-6">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div class="text-center sm:text-left">
+              <span class="text-xs text-slate-400 font-mono">TỪ ĐANG PHÂN TÍCH</span>
+              <h3 id="lab-word" class="font-heading text-3xl font-black text-amber-300">computer</h3>
+            </div>
+            <div class="text-center sm:text-right">
+              <span class="text-xs text-slate-400 font-mono">PHIÊN ÂM IPA</span>
+              <p id="lab-ipa" class="font-mono text-xl text-indigo-300">/kəmˈpjuː.tə/</p>
+            </div>
+          </div>
+
+          <!-- Visual Pitch Contour / Syllables -->
+          <div class="space-y-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Mô phỏng cao độ các âm tiết:</span>
+            <div id="syllables-visual-box" class="flex flex-wrap items-end gap-3 min-h-[140px] p-4 bg-slate-950/70 rounded-2xl border border-slate-800"></div>
+          </div>
+
+          <!-- Audio and Explanation -->
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+            <p id="lab-explanation" class="text-xs sm:text-sm text-slate-300">
+              Trọng âm rơi vào âm tiết thứ 2 (/ˈpjuː/). Âm 1 & 3 thêm dấu huyền/nặng đọc nhẹ và lướt nhanh!
+            </p>
+            <button onclick="playLabAudio()" class="px-5 py-2.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-sm flex items-center gap-2 shadow-lg transition active:scale-95">
+              🔊 Nghe Phát Âm Từ Này
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer class="bg-white border-t border-slate-200 mt-12 py-6 text-center text-xs text-slate-500 space-y-2">
+    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>💡 <strong>Lời khuyên KET:</strong> Hãy luyện tập phát âm chuẩn từng âm vị mỗi ngày để đạt điểm cao bài thi Nói & Nghe!</p>
+      <p class="text-slate-400">Biên soạn chuẩn Cambridge KET Phonics & International Phonetic Alphabet</p>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-sm font-bold"></div>
+
+  <script>
+    /* AudioContext & Web Audio API Core Engine */
+    let audioCtx = null;
+
+    function getAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+      return audioCtx;
+    }
+
+    // Unlocking Audio on any first touch or click
+    window.addEventListener('click', () => {
+      getAudioContext();
+      if ('speechSynthesis' in window && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
+    }, { once: true });
+
+    /* Speaker Test Function */
+    function testSpeakerSound() {
+      const ctx = getAudioContext();
+      if (ctx) {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+        osc.frequency.setValueAtTime(880.00, ctx.currentTime + 0.12); // A5
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+      }
+      showToast("🔊 Đang thử loa: Âm thanh hoạt động rất tốt!");
+      setTimeout(() => {
+        playWordExample("Welcome to KET IPA Master");
+      }, 350);
+    }
+
+    // Acoustic Formant & Noise generator for 100% offline pure phoneme sound
+    function synthesizeAcousticPhoneme(symbol) {
+      const ctx = getAudioContext();
+      if (!ctx) return;
+
+      const now = ctx.currentTime;
+
+      // 1. VOWEL FORMANT SYNTHESIS (F1, F2, F3 Resonances)
+      const vowelFormants = {
+        "/iː/": { f1: 270, f2: 2300, f3: 3000, dur: 0.65, pitch: 175 },
+        "/ɪ/":  { f1: 390, f2: 1950, f3: 2550, dur: 0.28, pitch: 165 },
+        "/ʊ/":  { f1: 440, f2: 1020, f3: 2250, dur: 0.28, pitch: 160 },
+        "/uː/": { f1: 300, f2: 870,  f3: 2240, dur: 0.65, pitch: 160 },
+        "/e/":  { f1: 530, f2: 1840, f3: 2500, dur: 0.30, pitch: 165 },
+        "/ə/":  { f1: 500, f2: 1500, f3: 2500, dur: 0.28, pitch: 155 },
+        "/ɜː/": { f1: 490, f2: 1380, f3: 1700, dur: 0.65, pitch: 160 },
+        "/ɔː/": { f1: 450, f2: 740,  f3: 2400, dur: 0.65, pitch: 155 },
+        "/æ/":  { f1: 720, f2: 1720, f3: 2450, dur: 0.40, pitch: 170 },
+        "/ʌ/":  { f1: 640, f2: 1250, f3: 2550, dur: 0.28, pitch: 160 },
+        "/ɑː/": { f1: 750, f2: 1100, f3: 2450, dur: 0.65, pitch: 155 },
+        "/ɒ/":  { f1: 580, f2: 890,  f3: 2500, dur: 0.30, pitch: 155 }
+      };
+
+      if (vowelFormants[symbol]) {
+        const v = vowelFormants[symbol];
+        // Glottal source oscillator (Rich pulse)
+        const osc = ctx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(v.pitch, now);
+        osc.frequency.exponentialRampToValueAtTime(v.pitch * 0.92, now + v.dur);
+
+        // 3 Formant Bandpass Filters
+        const bp1 = ctx.createBiquadFilter();
+        bp1.type = 'bandpass';
+        bp1.frequency.setValueAtTime(v.f1, now);
+        bp1.Q.setValueAtTime(7.0, now);
+
+        const bp2 = ctx.createBiquadFilter();
+        bp2.type = 'bandpass';
+        bp2.frequency.setValueAtTime(v.f2, now);
+        bp2.Q.setValueAtTime(9.0, now);
+
+        const bp3 = ctx.createBiquadFilter();
+        bp3.type = 'bandpass';
+        bp3.frequency.setValueAtTime(v.f3, now);
+        bp3.Q.setValueAtTime(7.0, now);
+
+        const masterGain = ctx.createGain();
+        masterGain.gain.setValueAtTime(0.001, now);
+        masterGain.gain.linearRampToValueAtTime(0.35, now + 0.04);
+        masterGain.gain.exponentialRampToValueAtTime(0.001, now + v.dur);
+
+        osc.connect(bp1);
+        osc.connect(bp2);
+        osc.connect(bp3);
+
+        bp1.connect(masterGain);
+        bp2.connect(masterGain);
+        bp3.connect(masterGain);
+
+        masterGain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + v.dur);
+        return;
+      }
+
+      // 2. DIPHTHONG FORMANT TRANSITIONS
+      const diphthongFormants = {
+        "/eɪ/": { start: { f1: 530, f2: 1840 }, end: { f1: 390, f2: 2100 } },
+        "/aɪ/": { start: { f1: 750, f2: 1100 }, end: { f1: 390, f2: 2100 } },
+        "/ɔɪ/": { start: { f1: 450, f2: 740 },  end: { f1: 390, f2: 2100 } },
+        "/aʊ/": { start: { f1: 750, f2: 1100 }, end: { f1: 350, f2: 900 } },
+        "/əʊ/": { start: { f1: 500, f2: 1500 }, end: { f1: 350, f2: 900 } },
+        "/ɪə/": { start: { f1: 390, f2: 2000 }, end: { f1: 500, f2: 1500 } },
+        "/eə/": { start: { f1: 550, f2: 1800 }, end: { f1: 500, f2: 1500 } },
+        "/ʊə/": { start: { f1: 400, f2: 1000 }, end: { f1: 500, f2: 1500 } }
+      };
+
+      if (diphthongFormants[symbol]) {
+        const d = diphthongFormants[symbol];
+        const dur = 0.65;
+        const osc = ctx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(170, now);
+        osc.frequency.exponentialRampToValueAtTime(150, now + dur);
+
+        const bp1 = ctx.createBiquadFilter();
+        bp1.type = 'bandpass';
+        bp1.frequency.setValueAtTime(d.start.f1, now);
+        bp1.frequency.exponentialRampToValueAtTime(d.end.f1, now + dur);
+        bp1.Q.setValueAtTime(6.0, now);
+
+        const bp2 = ctx.createBiquadFilter();
+        bp2.type = 'bandpass';
+        bp2.frequency.setValueAtTime(d.start.f2, now);
+        bp2.frequency.exponentialRampToValueAtTime(d.end.f2, now + dur);
+        bp2.Q.setValueAtTime(7.0, now);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.35, now + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        osc.connect(bp1);
+        osc.connect(bp2);
+        bp1.connect(gain);
+        bp2.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now);
+        osc.stop(now + dur);
+        return;
+      }
+
+      // 3. CONSONANTS (Fricatives, Plosives, Nasals, Approximants)
+      // Helper: Generate White Noise buffer
+      function createNoiseNode(duration) {
+        const bufferSize = ctx.sampleRate * duration;
+        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+        const data = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        const noise = ctx.createBufferSource();
+        noise.buffer = buffer;
+        return noise;
+      }
+
+      // Consonant logic by category
+      if (['/s/', '/z/', '/ʃ/', '/ʒ/', '/f/', '/v/', '/θ/', '/ð/', '/h/'].includes(symbol)) {
+        // Friction sounds
+        let dur = 0.45;
+        let filterFreq = 6000;
+        let filterType = 'highpass';
+        let isVoiced = ['/z/', '/ʒ/', '/v/', '/ð/'].includes(symbol);
+
+        if (symbol === '/ʃ/' || symbol === '/ʒ/') {
+          filterFreq = 3000;
+          filterType = 'bandpass';
+        } else if (symbol === '/f/' || symbol === '/v/') {
+          filterFreq = 2500;
+          filterType = 'bandpass';
+        } else if (symbol === '/θ/' || symbol === '/ð/') {
+          filterFreq = 4200;
+          filterType = 'bandpass';
+        } else if (symbol === '/h/') {
+          filterFreq = 1200;
+          filterType = 'bandpass';
+          dur = 0.35;
+        }
+
+        const noise = createNoiseNode(dur);
+        const filter = ctx.createBiquadFilter();
+        filter.type = filterType;
+        filter.frequency.setValueAtTime(filterFreq, now);
+
+        const noiseGain = ctx.createGain();
+        noiseGain.gain.setValueAtTime(0.001, now);
+        noiseGain.gain.linearRampToValueAtTime(0.3, now + 0.03);
+        noiseGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        noise.connect(filter);
+        filter.connect(noiseGain);
+        noiseGain.connect(ctx.destination);
+        noise.start(now);
+
+        if (isVoiced) {
+          const buzz = ctx.createOscillator();
+          buzz.type = 'sawtooth';
+          buzz.frequency.setValueAtTime(130, now);
+          const buzzGain = ctx.createGain();
+          buzzGain.gain.setValueAtTime(0.2, now);
+          buzzGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+          buzz.connect(buzzGain);
+          buzzGain.connect(ctx.destination);
+          buzz.start(now);
+          buzz.stop(now + dur);
+        }
+        return;
+      }
+
+      if (['/p/', '/b/', '/t/', '/d/', '/k/', '/ɡ/'].includes(symbol)) {
+        // Plosives: Quick burst
+        const dur = 0.18;
+        const isVoiced = ['/b/', '/d/', '/ɡ/'].includes(symbol);
+        let centerFreq = 3800;
+        if (symbol === '/p/' || symbol === '/b/') centerFreq = 900;
+        if (symbol === '/k/' || symbol === '/ɡ/') centerFreq = 1800;
+
+        const noise = createNoiseNode(dur);
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(centerFreq, now);
+        filter.Q.setValueAtTime(3.0, now);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.5, now + 0.015);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(now);
+
+        if (isVoiced) {
+          const osc = ctx.createOscillator();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(140, now);
+          osc.frequency.exponentialRampToValueAtTime(70, now + dur);
+          const oscGain = ctx.createGain();
+          oscGain.gain.setValueAtTime(0.35, now);
+          oscGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+          osc.connect(oscGain);
+          oscGain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + dur);
+        }
+        return;
+      }
+
+      if (['/m/', '/n/', '/ŋ/', '/l/', '/r/', '/w/', '/j/'].includes(symbol)) {
+        // Resonant Voiced Approximants & Nasals
+        const dur = 0.45;
+        const osc = ctx.createOscillator();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(140, now);
+
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'lowpass';
+        let cutoff = 600;
+        if (symbol === '/l/') cutoff = 1100;
+        if (symbol === '/j/') cutoff = 2200;
+        if (symbol === '/r/') cutoff = 1300;
+        filter.frequency.setValueAtTime(cutoff, now);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.001, now);
+        gain.gain.linearRampToValueAtTime(0.35, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        osc.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + dur);
+        return;
+      }
+
+      if (['/tʃ/', '/dʒ/'].includes(symbol)) {
+        // Affricates: burst + fricative
+        const dur = 0.35;
+        const isVoiced = symbol === '/dʒ/';
+        const noise = createNoiseNode(dur);
+        const filter = ctx.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.setValueAtTime(3200, now);
+
+        const gain = ctx.createGain();
+        gain.gain.setValueAtTime(0.6, now + 0.02);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+        noise.connect(filter);
+        filter.connect(gain);
+        gain.connect(ctx.destination);
+        noise.start(now);
+
+        if (isVoiced) {
+          const osc = ctx.createOscillator();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(130, now);
+          const oscGain = ctx.createGain();
+          oscGain.gain.setValueAtTime(0.25, now);
+          oscGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+          osc.connect(oscGain);
+          oscGain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + dur);
+        }
+      }
+    }
+
+    let currentVoiceAccent = 'en-GB';
+    let userXP = parseInt(localStorage.getItem('ket_ipa_xp') || '0');
+    let solvedCards = JSON.parse(localStorage.getItem('ket_ipa_solved') || '{}');
+    let currentCardIndex = 0;
+    let currentFilteredCategory = 'all';
+    let currentPlayingSymbol = null;
+    let activeModalSound = null;
+    let earTrainingScore = 0;
+    let currentMysterySound = null;
+
+    document.getElementById('user-xp').innerText = userXP;
+
+    const IPA_DATA = {
+      monophthongs: [
+        { 
+          symbol: "/iː/", name: "Âm i dài", category: "mono", type: "Nguyên âm đơn dài", isLong: true,
+          ttsPhonetic: "eee", lipShape: "Dẹt mở rộng (Cười)", tonguePos: "Nâng cao phía trước", voice: "voiced",
+          guide: "Kéo dài âm 'i', phát âm trong khoang miệng. Môi mở rộng căng sang hai bên như mỉm cười, lưỡi nâng cao.",
+          examples: ["see", "eat", "tea", "sleep"],
+          minimalPair: { symbol: "/ɪ/", word1: "sheep /ʃiːp/", word2: "ship /ʃɪp/", note: "/iː/ căng môi ngân dài, /ɪ/ giật ngắn" }
+        },
+        { 
+          symbol: "/ɪ/", name: "Âm i ngắn", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "ih", lipShape: "Hơi mở, thả lỏng", tonguePos: "Hạ thấp hơn /iː/", voice: "voiced",
+          guide: "Phát âm giống âm 'i' nhưng rất ngắn, dứt khoát (=1/2 âm i). Môi hơi mở sang hai bên, cơ hàm thả lỏng.",
+          examples: ["sit", "hit", "ship", "live"],
+          minimalPair: { symbol: "/iː/", word1: "ship /ʃɪp/", word2: "sheep /ʃiːp/", note: "/ɪ/ đọc gọn gàng, cổ họng dứt nhanh" }
+        },
+        { 
+          symbol: "/ʊ/", name: "Âm u ngắn", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "ooh", lipShape: "Tròn nhẹ, thư giãn", tonguePos: "Nâng phần sau lưỡi", voice: "voiced",
+          guide: "Hơi giống âm 'ư' pha 'u' tiếng Việt. Đẩy luồng hơi ngắn từ cuống họng, môi tròn nhẹ và dứt nhanh.",
+          examples: ["look", "good", "foot", "put"],
+          minimalPair: { symbol: "/uː/", word1: "full /fʊl/", word2: "fool /fuːl/", note: "/ʊ/ dứt khoát không kéo dài" }
+        },
+        { 
+          symbol: "/uː/", name: "Âm u dài", category: "mono", type: "Nguyên âm đơn dài", isLong: true,
+          ttsPhonetic: "ooo", lipShape: "Chu tròn về trước", tonguePos: "Nâng cao cuống lưỡi", voice: "voiced",
+          guide: "Kéo dài âm 'u', âm phát sâu trong khoang miệng. Khẩu hình môi chu tròn hết cỡ như huýt sáo.",
+          examples: ["blue", "shoe", "cool", "food"],
+          minimalPair: { symbol: "/ʊ/", word1: "pool /puːl/", word2: "pull /pʊl/", note: "/uː/ chu môi căng và ngân dài" }
+        },
+        { 
+          symbol: "/e/", name: "Âm e ngắn", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "eh", lipShape: "Mở rộng vừa phải", tonguePos: "Ở giữa khoang miệng", voice: "voiced",
+          guide: "Giống âm 'e' tiếng Việt nhưng dứt khoát hơn. Môi mở rộng tự nhiên, lưỡi hạ thấp vừa phải.",
+          examples: ["pen", "bed", "ten", "red"],
+          minimalPair: { symbol: "/æ/", word1: "bed /bed/", word2: "bad /bæd/", note: "/e/ miệng mở vừa, /æ/ mở to hết cỡ" }
+        },
+        { 
+          symbol: "/ə/", name: "Âm Schwa (ơ ngắn)", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "uh", lipShape: "Thả lỏng hoàn toàn", tonguePos: "Ở trung tâm miệng", voice: "voiced",
+          guide: "Âm phổ biến nhất tiếng Anh! Phát âm 'ơ' siêu nhẹ, môi hơi mở tự nhiên, hoàn toàn không tốn sức.",
+          examples: ["banana", "doctor", "about", "father"],
+          minimalPair: { symbol: "/ɜː/", word1: "sofa /ˈsəʊ.fə/", word2: "sir /sɜː/", note: "/ə/ chỉ xuất hiện ở âm không nhấn trọng âm" }
+        },
+        { 
+          symbol: "/ɜː/", name: "Âm ơ dài", category: "mono", type: "Nguyên âm đơn dài", isLong: true,
+          ttsPhonetic: "err", lipShape: "Mở vừa, tròn nhẹ", tonguePos: "Lưỡi hơi cong", voice: "voiced",
+          guide: "Đọc âm 'ơ' nhưng cong nhẹ lưỡi về phía sau, ngân dài. Âm phát từ sâu trong khoang họng.",
+          examples: ["bird", "girl", "first", "learn"],
+          minimalPair: { symbol: "/ə/", word1: "turn /tɜːn/", word2: "ton /ˈtʌn/", note: "/ɜː/ có dấu hai chấm ngân dài hơn hẳn" }
+        },
+        { 
+          symbol: "/ɔː/", name: "Âm o dài", category: "mono", type: "Nguyên âm đơn dài", isLong: true,
+          ttsPhonetic: "aww", lipShape: "Tròn môi, đưa ra trước", tonguePos: "Lưỡi thụt sâu", voice: "voiced",
+          guide: "Phát âm 'o' sâu trong khoang miệng, môi chu tròn và mở to, lưỡi chạm nhẹ vào vòm miệng khi dứt.",
+          examples: ["door", "four", "ball", "sport"],
+          minimalPair: { symbol: "/ɒ/", word1: "sport /spɔːt/", word2: "spot /spɒt/", note: "/ɔː/ kéo dài, /ɒ/ ngắt nhanh" }
+        },
+        { 
+          symbol: "/æ/", name: "Âm a bẹt (e bẹt)", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "aah", lipShape: "Mở rộng tối đa", tonguePos: "Lưỡi hạ sát hàm dưới", voice: "voiced",
+          guide: "Nằm giữa âm 'e' và 'a'. Hạ cằm mở to miệng hết cỡ, lưỡi đè sát hàm dưới, phát âm cảm giác dẹt và bẹt.",
+          examples: ["cat", "hat", "apple", "black"],
+          minimalPair: { symbol: "/e/", word1: "bad /bæd/", word2: "bed /bed/", note: "/æ/ cằm mở to gấp đôi /e/" }
+        },
+        { 
+          symbol: "/ʌ/", name: "Âm á (á ngắn)", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "uh", lipShape: "Mở hẹp tự nhiên", tonguePos: "Nâng nhẹ phần sau", voice: "voiced",
+          guide: "Tương tự âm 'ă' hoặc 'ớ' dứt khoát. Miệng mở hẹp, bật âm ngắn gọn từ cổ họng.",
+          examples: ["cup", "bus", "sun", "luck"],
+          minimalPair: { symbol: "/ɑː/", word1: "cup /kʌp/", word2: "carp /kɑːp/", note: "/ʌ/ giật dứt, /ɑː/ trầm và sâu" }
+        },
+        { 
+          symbol: "/ɑː/", name: "Âm a dài", category: "mono", type: "Nguyên âm đơn dài", isLong: true,
+          ttsPhonetic: "ahh", lipShape: "Mở to, tròn đều", tonguePos: "Hạ thấp nhất", voice: "voiced",
+          guide: "Phát âm 'a' ngân dài, sâu thẳm từ trong cuống họng. Miệng mở to theo chiều dọc như khi khám họng.",
+          examples: ["car", "park", "star", "far"],
+          minimalPair: { symbol: "/æ/", word1: "park /pɑːk/", word2: "pack /pæk/", note: "/ɑː/ âm sâu tròn, /æ/ âm bẹt ngang" }
+        },
+        { 
+          symbol: "/ɒ/", name: "Âm o ngắn", category: "mono", type: "Nguyên âm đơn ngắn", isLong: false,
+          ttsPhonetic: "off", lipShape: "Hơi tròn, mở vừa", tonguePos: "Cuống lưỡi hạ thấp", voice: "voiced",
+          guide: "Âm 'o' tiếng Anh Anh dứt khoát, gọn gàng. Môi hơi tròn, lưỡi hạ thấp và ngắt tiếng ngay.",
+          examples: ["not", "hot", "dog", "box"],
+          minimalPair: { symbol: "/ɔː/", word1: "cot /kɒt/", word2: "caught /kɔːt/", note: "/ɒ/ phát âm siêu nhanh không kéo dài" }
+        }
+      ],
+
+      diphthongs: [
+        { 
+          symbol: "/ɪə/", name: "Âm ia", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "ear", lipShape: "Dẹt &rarr; thả lỏng tròn", tonguePos: "Từ cao lùi về giữa", voice: "voiced",
+          guide: "Trượt mượt mà từ /ɪ/ sang /ə/. Âm /ɪ/ phát rõ kéo dài 2/3 thời gian, âm /ə/ lướt nhẹ 1/3.",
+          examples: ["hear", "near", "clear", "beer"],
+          minimalPair: { symbol: "/eə/", word1: "beer /bɪə/", word2: "bear /beə/", note: "/ɪə/ bắt đầu bằng âm i" }
+        },
+        { 
+          symbol: "/eɪ/", name: "Âm êi (ây)", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "ay", lipShape: "Mở vừa &rarr; dẹt mỉm cười", tonguePos: "Nâng dần lên trước", voice: "voiced",
+          guide: "Bắt đầu ở âm /e/, sau đó khép dần môi và nâng lưỡi lên âm /ɪ/. Nghe như chữ 'ây' sang trọng.",
+          examples: ["day", "face", "play", "rain"],
+          minimalPair: { symbol: "/e/", word1: "wait /weɪt/", word2: "wet /wet/", note: "/eɪ/ có độ trượt và ngân dài" }
+        },
+        { 
+          symbol: "/ʊə/", name: "Âm ua (u-ơ)", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "oor", lipShape: "Chu tròn &rarr; mở nhẹ", tonguePos: "Từ sau trượt về giữa", voice: "voiced",
+          guide: "Trượt từ âm /ʊ/ sang âm /ə/. Khẩu hình từ chu tròn mở nhẹ dần sang tư thế thả lỏng.",
+          examples: ["tour", "poor", "sure", "cure"],
+          minimalPair: { symbol: "/ɔː/", word1: "sure /ʃʊə/", word2: "shore /ʃɔː/", note: "/ʊə/ có chuyển động môi rõ rệt" }
+        },
+        { 
+          symbol: "/ɔɪ/", name: "Âm oi", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "oy", lipShape: "Tròn môi &rarr; dẹt cười", tonguePos: "Từ sau nâng lên trước", voice: "voiced",
+          guide: "Phát âm /ɔː/ tròn môi rồi trượt nhanh và mượt sang /ɪ/. Giống âm 'oi' nhưng ngân dài hơn.",
+          examples: ["boy", "toy", "coin", "voice"],
+          minimalPair: { symbol: "/aɪ/", word1: "boy /bɔɪ/", word2: "buy /baɪ/", note: "/ɔɪ/ môi chu tròn lúc đầu" }
+        },
+        { 
+          symbol: "/əʊ/", name: "Âm ơu (âu/ôu)", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "oh", lipShape: "Thả lỏng &rarr; chu tròn", tonguePos: "Từ giữa lùi về sau", voice: "voiced",
+          guide: "Bắt đầu bằng âm Schwa /ə/ thả lỏng, sau đó chu tròn môi lại thành âm /ʊ/.",
+          examples: ["go", "home", "boat", "cold"],
+          minimalPair: { symbol: "/ɔː/", word1: "boat /bəʊt/", word2: "bought /bɔːt/", note: "/əʊ/ có chuyển động môi thu nhỏ" }
+        },
+        { 
+          symbol: "/eə/", name: "Âm e-ơ (e dài)", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "air", lipShape: "Mở vừa &rarr; thả lỏng", tonguePos: "Từ trước lùi nhẹ", voice: "voiced",
+          guide: "Phát âm /e/ mở vừa rồi lướt nhẹ sang /ə/. Người Anh phát âm gần như âm e kéo dài.",
+          examples: ["hair", "chair", "bear", "wear"],
+          minimalPair: { symbol: "/ɪə/", word1: "hair /heə/", word2: "hear /hɪə/", note: "/eə/ mở miệng to hơn /ɪə/" }
+        },
+        { 
+          symbol: "/aɪ/", name: "Âm ai", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "eye", lipShape: "Mở to &rarr; dẹt mỏng", tonguePos: "Từ thấp nâng lên cao", voice: "voiced",
+          guide: "Bắt đầu với âm /ɑː/ mở miệng rộng hết cỡ, sau đó nâng hàm và dẹt môi sang âm /ɪ/.",
+          examples: ["fly", "time", "my", "night"],
+          minimalPair: { symbol: "/eɪ/", word1: "buy /baɪ/", word2: "bay /beɪ/", note: "/aɪ/ khẩu hình xuất phát mở to hơn" }
+        },
+        { 
+          symbol: "/aʊ/", name: "Âm ao (au)", category: "diph", type: "Nguyên âm đôi", isLong: true,
+          ttsPhonetic: "ow", lipShape: "Mở to &rarr; chu tròn nhỏ", tonguePos: "Từ thấp lùi ra sau", voice: "voiced",
+          guide: "Mở to miệng phát âm /ɑː/ rồi chu nhanh môi về phía trước tạo thành âm /ʊ/.",
+          examples: ["now", "house", "cow", "mouth"],
+          minimalPair: { symbol: "/əʊ/", word1: "now /naʊ/", word2: "no /nəʊ/", note: "/aʊ/ mở miệng rất to lúc khởi đầu" }
+        }
+      ],
+
+      consonants: [
+        { 
+          symbol: "/p/", name: "Phụ âm p", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "p", lipShape: "Hai môi mím chặt", tonguePos: "Thả lỏng tự nhiên",
+          guide: "Hai môi mím chặt chặn luồng khí, sau đó bật mạnh luồng khí ra ngoài. Dây thanh quản KHÔNG rung.",
+          examples: ["pen", "pig", "stop", "happy"],
+          minimalPair: { symbol: "/b/", word1: "pin /pɪn/", word2: "bin /bɪn/", note: "/p/ không rung cổ, /b/ rung mạnh" }
+        },
+        { 
+          symbol: "/b/", name: "Phụ âm b", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "b", lipShape: "Hai môi mím lại", tonguePos: "Thả lỏng tự nhiên",
+          guide: "Hai môi mím chặt rồi bật mở ra, đồng thời làm RUNG DÂY THANH QUẢN trong cổ họng.",
+          examples: ["book", "baby", "big", "club"],
+          minimalPair: { symbol: "/p/", word1: "bin /bɪn/", word2: "pin /pɪn/", note: "/b/ cổ họng rung bần bật" }
+        },
+        { 
+          symbol: "/t/", name: "Phụ âm t", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "t", lipShape: "Hé mở tự nhiên", tonguePos: "Đầu lưỡi chạm nướu trên",
+          guide: "Đầu lưỡi chạm chắc vào nướu răng trên, bật luồng hơi dứt khoát ra ngoài. Cổ họng êm ru không rung.",
+          examples: ["tea", "table", "cat", "water"],
+          minimalPair: { symbol: "/d/", word1: "two /tuː/", word2: "do /duː/", note: "/t/ bật hơi gió mạnh, /d/ rung thanh quản" }
+        },
+        { 
+          symbol: "/d/", name: "Phụ âm d", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "d", lipShape: "Hé mở tự nhiên", tonguePos: "Đầu lưỡi chạm nướu trên",
+          guide: "Đầu lưỡi chạm nướu răng trên, bật nhẹ luồng hơi kết hợp làm RUNG DÂY THANH QUẢN.",
+          examples: ["door", "dog", "red", "middle"],
+          minimalPair: { symbol: "/t/", word1: "do /duː/", word2: "two /tuː/", note: "/d/ có rung cổ họng rõ" }
+        },
+        { 
+          symbol: "/tʃ/", name: "Âm ch (chờ)", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "ch", lipShape: "Chu tròn về trước", tonguePos: "Đầu lưỡi chạm vòm miệng",
+          guide: "Chu môi về trước, đầu lưỡi chạm vòm nướu trên rồi bật mạnh luồng khí ra. Vô thanh (cổ không rung).",
+          examples: ["chair", "church", "watch", "chicken"],
+          minimalPair: { symbol: "/dʒ/", word1: "cheap /tʃiːp/", word2: "jeep /dʒiːp/", note: "/tʃ/ bật hơi vô thanh, /dʒ/ rung thanh quản" }
+        },
+        { 
+          symbol: "/dʒ/", name: "Âm j (gi/ch rung)", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "j", lipShape: "Chu tròn về trước", tonguePos: "Đầu lưỡi chạm vòm miệng",
+          guide: "Khẩu hình giống /tʃ/ (chu tròn môi) nhưng bật hơi kết hợp LÀM RUNG THANH QUẢN mạnh mẽ.",
+          examples: ["juice", "jeans", "orange", "bridge"],
+          minimalPair: { symbol: "/tʃ/", word1: "jeep /dʒiːp/", word2: "cheap /tʃiːp/", note: "/dʒ/ rung cổ họng rất đậm" }
+        },
+        { 
+          symbol: "/k/", name: "Phụ âm k", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "k", lipShape: "Mở tự nhiên", tonguePos: "Nâng cuống lưỡi chạm ngạc mềm",
+          guide: "Nâng phần sau của lưỡi chạm vòm họng mềm, hạ nhanh lưỡi để luồng khí bật ra. Cổ không rung.",
+          examples: ["cat", "key", "black", "school"],
+          minimalPair: { symbol: "/ɡ/", word1: "coat /kəʊt/", word2: "goat /ɡəʊt/", note: "/k/ bật gió khạc nhẹ, /ɡ/ rung cổ" }
+        },
+        { 
+          symbol: "/ɡ/", name: "Phụ âm g", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "g", lipShape: "Mở tự nhiên", tonguePos: "Cuống lưỡi nâng ngạc mềm",
+          guide: "Vị trí lưỡi tương tự /k/ nhưng tạo độ RUNG DÂY THANH QUẢN trong họng khi phát ra.",
+          examples: ["go", "green", "bag", "big"],
+          minimalPair: { symbol: "/k/", word1: "goat /ɡəʊt/", word2: "coat /kəʊt/", note: "/ɡ/ có độ gằn rung thanh quản" }
+        },
+        { 
+          symbol: "/f/", name: "Phụ âm f", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "f", lipShape: "Răng trên chạm môi dưới", tonguePos: "Thả lỏng",
+          guide: "Răng cửa hàm trên chạm nhẹ lên môi dưới, đẩy luồng khí thoát qua khe hở tạo tiếng xì gió.",
+          examples: ["fish", "four", "leaf", "coffee"],
+          minimalPair: { symbol: "/v/", word1: "fan /fæn/", word2: "van /væn/", note: "/f/ chỉ xì gió, /v/ rung môi và cổ" }
+        },
+        { 
+          symbol: "/v/", name: "Phụ âm v", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "v", lipShape: "Răng trên chạm môi dưới", tonguePos: "Thả lỏng",
+          guide: "Răng trên chạm môi dưới, đẩy hơi ra kết hợp làm RUNG DÂY THANH QUẢN và môi dưới tê rung.",
+          examples: ["van", "very", "five", "love"],
+          minimalPair: { symbol: "/f/", word1: "van /væn/", word2: "fan /fæn/", note: "/v/ cảm nhận môi dưới rung tê" }
+        },
+        { 
+          symbol: "/θ/", name: "Âm th vô thanh (thổi)", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "th", lipShape: "Hé mở kẽ răng", tonguePos: "Đầu lưỡi kẹp giữa hai hàm răng",
+          guide: "ĐẶT ĐẦU LƯỠI GIỮA HAI HÀM RĂNG. Thổi nhẹ luồng khí thoát ra giữa lưỡi và răng trên. Cổ không rung!",
+          examples: ["think", "thanks", "three", "mouth"],
+          minimalPair: { symbol: "/s/", word1: "think /θɪŋk/", word2: "sink /sɪŋk/", note: "/θ/ kẹp lưỡi giữa răng, /s/ răng khép kín" }
+        },
+        { 
+          symbol: "/ð/", name: "Âm th hữu thanh (rung)", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "th", lipShape: "Hé mở kẽ răng", tonguePos: "Đầu lưỡi kẹp giữa hai hàm răng",
+          guide: "ĐẶT ĐẦU LƯỠI GIỮA HAI HÀM RĂNG. Phát âm luồng hơi kết hợp RUNG MẠNH THANH QUẢN trong họng.",
+          examples: ["this", "that", "mother", "they"],
+          minimalPair: { symbol: "/d/", word1: "then /ðen/", word2: "den /den/", note: "/ð/ kẹp lưỡi, không được thụt lưỡi vào như /d/" }
+        },
+        { 
+          symbol: "/s/", name: "Phụ âm s (xì nhẹ)", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "s", lipShape: "Mỉm cười nhẹ", tonguePos: "Đầu lưỡi gần nướu răng trên",
+          guide: "Hai hàm răng khép gần nhau, đầu lưỡi đặt gần nướu trên, đẩy luồng khí ra tạo tiếng xì gió mảnh.",
+          examples: ["sun", "see", "bus", "city"],
+          minimalPair: { symbol: "/ʃ/", word1: "see /siː/", word2: "she /ʃiː/", note: "/s/ miệng cười xì mảnh, /ʃ/ chu môi dày gió" }
+        },
+        { 
+          symbol: "/z/", name: "Phụ âm z (xì rung)", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "z", lipShape: "Mỉm cười nhẹ", tonguePos: "Đầu lưỡi gần nướu răng trên",
+          guide: "Vị trí khẩu hình y như /s/ nhưng làm RUNG MẠNH DÂY THANH QUẢN như tiếng ong kêu rì rì.",
+          examples: ["zoo", "zero", "music", "rose"],
+          minimalPair: { symbol: "/s/", word1: "zoo /zuː/", word2: "Sue /suː/", note: "/z/ cổ rung rất mạnh" }
+        },
+        { 
+          symbol: "/ʃ/", name: "Âm s nặng (suỵt/sh)", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "sh", lipShape: "Chu tròn về trước", tonguePos: "Thân lưỡi nâng vòm họng",
+          guide: "CHU TRÒN MÔI VỀ PHÍA TRƯỚC (như khi làm động tác 'suỵt'). Thổi luồng khí dày ra ngoài. Không rung cổ.",
+          examples: ["she", "shoe", "fish", "wash"],
+          minimalPair: { symbol: "/s/", word1: "she /ʃiː/", word2: "see /siː/", note: "/ʃ/ chu môi thổi luồng gió dày dặn" }
+        },
+        { 
+          symbol: "/ʒ/", name: "Âm dơ nặng (rung)", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "zh", lipShape: "Chu tròn về trước", tonguePos: "Thân lưỡi nâng vòm họng",
+          guide: "Khẩu hình CHU MÔI giống hệt /ʃ/, nhưng kết hợp LÀM RUNG THANH QUẢN tạo âm thanh dày và trầm.",
+          examples: ["television", "vision", "pleasure", "measure"],
+          minimalPair: { symbol: "/ʃ/", word1: "vision /ˈvɪʒ.ən/", word2: "mission /ˈmɪʃ.ən/", note: "/ʒ/ có độ rung cổ rõ ràng" }
+        },
+        { 
+          symbol: "/m/", name: "Âm mũi m", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "m", lipShape: "Hai môi ngậm kín", tonguePos: "Thả lỏng",
+          guide: "Hai môi ngậm kín, luồng khí không thoát qua miệng mà thoát qua mũi, làm rung dây thanh quản ('mmm').",
+          examples: ["man", "milk", "room", "summer"],
+          minimalPair: { symbol: "/n/", word1: "mouse /maʊs/", word2: "nice /naɪs/", note: "/m/ ngậm chặt môi" }
+        },
+        { 
+          symbol: "/n/", name: "Âm mũi n", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "n", lipShape: "Môi hé mở", tonguePos: "Đầu lưỡi chạm nướu trên",
+          guide: "Đầu lưỡi chạm nướu răng trên chặn luồng khí qua miệng, khí thoát qua mũi, rung thanh quản ('nnn').",
+          examples: ["no", "name", "sun", "dinner"],
+          minimalPair: { symbol: "/ŋ/", word1: "thin /θɪn/", word2: "thing /θɪŋ/", note: "/n/ đầu lưỡi chạm nướu trước" }
+        },
+        { 
+          symbol: "/ŋ/", name: "Âm mũi ng", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "ng", lipShape: "Miệng hé tự nhiên", tonguePos: "Cuống lưỡi nâng chặn ngạc mềm",
+          guide: "Phần sau lưỡi nâng lên chặn ngạc mềm, khí thoát ra qua đường mũi, rung thanh quản (như đuôi 'ng').",
+          examples: ["sing", "song", "english", "ring"],
+          minimalPair: { symbol: "/n/", word1: "sing /sɪŋ/", word2: "sin /sɪn/", note: "/ŋ/ chặn ở cuống họng" }
+        },
+        { 
+          symbol: "/h/", name: "Phụ âm h (thở dốc)", category: "cons", type: "Phụ âm vô thanh", voice: "unvoiced",
+          ttsPhonetic: "h", lipShape: "Hé mở tự nhiên", tonguePos: "Thả lỏng hoàn toàn",
+          guide: "Môi hé mở, đẩy luồng khí nhẹ từ thanh môn ra như tiếng thở phào. Dây thanh quản không rung.",
+          examples: ["hat", "hot", "home", "who"],
+          minimalPair: { symbol: "/-/", word1: "heart /hɑːt/", word2: "art /ɑːt/", note: "/h/ thở hơi ra trước nguyên âm" }
+        },
+        { 
+          symbol: "/l/", name: "Phụ âm l", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "l", lipShape: "Hé mở tự nhiên", tonguePos: "Đầu lưỡi chạm nướu trên",
+          guide: "Đầu lưỡi chạm nướu răng trên, luồng khí uốn quanh hai bên mép lưỡi thoát ra, rung thanh quản.",
+          examples: ["leg", "light", "ball", "yellow"],
+          minimalPair: { symbol: "/r/", word1: "light /laɪt/", word2: "right /raɪt/", note: "/l/ đầu lưỡi chạm nướu răng trên" }
+        },
+        { 
+          symbol: "/r/", name: "Phụ âm r (uốn lưỡi)", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "r", lipShape: "Môi hơi tròn về trước", tonguePos: "Lưỡi cong ngược vào trong",
+          guide: "Đầu lưỡi uốn cong về phía vòm họng cứng (không chạm vào vòm), môi hơi chu, rung thanh quản.",
+          examples: ["red", "run", "right", "room"],
+          minimalPair: { symbol: "/l/", word1: "right /raɪt/", word2: "light /laɪt/", note: "/r/ lưỡi uốn cong không chạm nướu" }
+        },
+        { 
+          symbol: "/w/", name: "Bán nguyên âm w", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "w", lipShape: "Chu tròn môi nhỏ", tonguePos: "Cuống lưỡi nâng cao",
+          guide: "Môi chu tròn nhỏ như huýt sáo rồi mở nhanh sang nguyên âm tiếp theo, rung dây thanh quản.",
+          examples: ["wet", "water", "window", "white"],
+          minimalPair: { symbol: "/v/", word1: "wet /wet/", word2: "vet /vet/", note: "/w/ chu tròn hai môi, /v/ răng chạm môi" }
+        },
+        { 
+          symbol: "/j/", name: "Bán nguyên âm j (d/y)", category: "cons", type: "Phụ âm hữu thanh", voice: "voiced",
+          ttsPhonetic: "y", lipShape: "Môi dẹt mở rộng", tonguePos: "Mặt lưỡi nâng gần ngạc cứng",
+          guide: "Nâng phần thân lưỡi lên gần vòm họng cứng, phát âm lướt nhanh như âm 'd' nhẹ miền Nam.",
+          examples: ["yes", "yellow", "year", "you"],
+          minimalPair: { symbol: "/dʒ/", word1: "year /jɪə/", word2: "jeer /dʒɪə/", note: "/j/ là âm trượt mượt mà không bật tắc" }
+        }
+      ]
+    };
+
+    function getAllSoundsList() {
+      return [...IPA_DATA.monophthongs, ...IPA_DATA.diphthongs, ...IPA_DATA.consonants];
+    }
+
+    function getSoundBySymbol(symbol) {
+      return getAllSoundsList().find(item => item.symbol === symbol);
+    }
+
+    function setAudioPlayingUI(symbol, isPlaying) {
+      currentPlayingSymbol = isPlaying ? symbol : null;
+      
+      const modalSymbol = document.getElementById('modal-symbol').innerText;
+      const modalWave = document.getElementById('modal-wave-anim');
+      if (modalSymbol === symbol) {
+        if (isPlaying) modalWave.classList.remove('hidden');
+        else modalWave.classList.add('hidden');
+      }
+
+      const cards = document.querySelectorAll(`[data-sound-card="${symbol}"]`);
+      cards.forEach(card => {
+        const wave = card.querySelector('.card-wave-indicator');
+        if (wave) {
+          if (isPlaying) wave.classList.remove('hidden');
+          else wave.classList.add('hidden');
+        }
+        if (isPlaying) card.classList.add('playing-glow');
+        else card.classList.remove('playing-glow');
+      });
+    }
+
+    // High quality Isolated Sound Player
+    function playIsolatedSound(symbol) {
+      getAudioContext();
+      const item = getSoundBySymbol(symbol);
+      if (!item) return;
+
+      setAudioPlayingUI(symbol, true);
+
+      // Trigger Web Audio API Formant Synthesizer
+      synthesizeAcousticPhoneme(symbol);
+
+      // Concurrently trigger TTS Phoneme Utterance for reinforced voice articulation
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(item.ttsPhonetic);
+        utterance.lang = currentVoiceAccent;
+        utterance.rate = 0.75;
+        utterance.pitch = 1.0;
+        utterance.onend = () => setAudioPlayingUI(symbol, false);
+        utterance.onerror = () => setAudioPlayingUI(symbol, false);
+        window.speechSynthesis.speak(utterance);
+      }
+
+      setTimeout(() => {
+        setAudioPlayingUI(symbol, false);
+      }, 700);
+    }
+
+    // Word Example Player with Web Speech API
+    function playWordExample(word, symbol = null) {
+      getAudioContext();
+      if (!('speechSynthesis' in window)) {
+        showToast("Trình duyệt không hỗ trợ Web Speech", "error");
+        return;
+      }
+      if (symbol) setAudioPlayingUI(symbol, true);
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(word);
+      utterance.lang = currentVoiceAccent;
+      utterance.rate = 0.85;
+      utterance.pitch = 1.05;
+      utterance.onend = () => {
+        if (symbol) setAudioPlayingUI(symbol, false);
+      };
+      utterance.onerror = () => {
+        if (symbol) setAudioPlayingUI(symbol, false);
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Combo Sound to Word Playback
+    function playComboSound(symbol) {
+      const item = getSoundBySymbol(symbol);
+      if (!item) return;
+
+      showToast(`Đang phát: Âm ${item.symbol} ➔ Từ "${item.examples[0]}"`);
+      playIsolatedSound(symbol);
+
+      setTimeout(() => {
+        playWordExample(item.examples[0], symbol);
+      }, 1000);
+    }
+
+    function renderIPACardHTML(item) {
+      const isMono = item.category === 'mono';
+      const isDiph = item.category === 'diph';
+      const isCons = item.category === 'cons';
+      const isUnvoiced = item.voice === 'unvoiced';
+
+      let borderTheme = "border-indigo-200 hover:border-indigo-500 bg-white";
+      let tagBg = "bg-indigo-50 text-indigo-700";
+      let symbolColor = "text-indigo-950";
+
+      if (isDiph) {
+        borderTheme = "border-sky-200 hover:border-sky-500 bg-white";
+        tagBg = "bg-sky-50 text-sky-700";
+        symbolColor = "text-sky-950";
+      } else if (isCons) {
+        if (isUnvoiced) {
+          borderTheme = "border-rose-200 hover:border-rose-500 bg-white";
+          tagBg = "bg-rose-50 text-rose-700";
+          symbolColor = "text-rose-950";
+        } else {
+          borderTheme = "border-teal-200 hover:border-teal-500 bg-white";
+          tagBg = "bg-teal-50 text-teal-700";
+          symbolColor = "text-teal-950";
+        }
+      }
+
+      return `
+        <div data-sound-card="${item.symbol}" class="group rounded-3xl p-3.5 sm:p-4 border-2 ${borderTheme} shadow-xs hover:shadow-lg transition-all duration-200 flex flex-col justify-between relative overflow-hidden">
+          
+          <div class="flex items-center justify-between gap-1 mb-2">
+            <span class="text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-full ${tagBg}">
+              ${item.isLong ? 'Âm dài /ː/' : (isUnvoiced ? '💨 Vô thanh' : (isCons ? '🔔 Hữu thanh' : 'Âm ngắn'))}
+            </span>
+
+            <div class="card-wave-indicator hidden flex items-end gap-0.5">
+              <span class="w-1 bg-amber-500 rounded-full wave-bar-1"></span>
+              <span class="w-1 bg-amber-500 rounded-full wave-bar-2"></span>
+              <span class="w-1 bg-amber-500 rounded-full wave-bar-3"></span>
+            </div>
+          </div>
+
+          <div onclick="openSoundModal('${item.symbol}')" class="cursor-pointer py-1 text-center space-y-0.5">
+            <div class="font-mono text-2xl sm:text-3xl font-extrabold ${symbolColor} group-hover:scale-105 transition transform">
+              ${item.symbol}
+            </div>
+            <div class="text-[11px] font-semibold text-slate-400 group-hover:text-indigo-600 transition">
+              ${item.name}
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-1.5 pt-2.5 mt-1 border-t border-slate-100">
+            <!-- 1. Play Isolated Phoneme -->
+            <button onclick="event.stopPropagation(); playIsolatedSound('${item.symbol}')" class="py-2 px-1 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 shadow-xs transition active:scale-95" title="Nghe riêng âm này">
+              <span>🔊</span>
+              <span>ÂM</span>
+            </button>
+            
+            <!-- 2. Play Example Word -->
+            <button onclick="event.stopPropagation(); playWordExample('${item.examples[0]}', '${item.symbol}')" class="py-2 px-1 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 font-bold text-[11px] sm:text-xs flex items-center justify-center gap-1 transition active:scale-95" title="Nghe từ ví dụ: ${item.examples[0]}">
+              <span>💬</span>
+              <span class="truncate">${item.examples[0]}</span>
+            </button>
+          </div>
+
+        </div>
+      `;
+    }
+
+    function renderIPAChart() {
+      document.getElementById('monophthongs-grid').innerHTML = IPA_DATA.monophthongs.map(renderIPACardHTML).join('');
+      document.getElementById('diphthongs-grid').innerHTML = IPA_DATA.diphthongs.map(renderIPACardHTML).join('');
+      document.getElementById('consonants-grid').innerHTML = IPA_DATA.consonants.map(renderIPACardHTML).join('');
+    }
+
+    function openSoundModal(symbol) {
+      const soundObj = getSoundBySymbol(symbol);
+      if (!soundObj) return;
+
+      activeModalSound = soundObj;
+
+      document.getElementById('modal-symbol').innerText = soundObj.symbol;
+      document.getElementById('modal-name').innerText = soundObj.name;
+      document.getElementById('modal-type').innerText = soundObj.type;
+      document.getElementById('modal-guide').innerText = soundObj.guide;
+      document.getElementById('modal-lip-shape').innerText = soundObj.lipShape;
+      document.getElementById('modal-tongue-pos').innerText = soundObj.tonguePos;
+      document.getElementById('modal-vocal-cord').innerText = soundObj.voice === 'unvoiced' ? '💨 Không rung' : '🔔 Rung cổ họng';
+
+      const exContainer = document.getElementById('modal-examples');
+      exContainer.innerHTML = soundObj.examples.map(ex => `
+        <button onclick="playWordExample('${ex}')" class="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-indigo-600 text-amber-300 hover:text-white border border-slate-700 text-xs font-bold transition flex items-center gap-1.5 shadow-xs">
+          <span>🔊</span> <span>${ex}</span>
+        </button>
+      `).join('');
+
+      const contrastBox = document.getElementById('modal-contrast-box');
+      if (soundObj.minimalPair) {
+        const pair = soundObj.minimalPair;
+        contrastBox.innerHTML = `
+          <div class="text-[11px] text-slate-300">
+            Phân biệt với: <strong class="text-amber-300">${pair.symbol}</strong>
+          </div>
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="playWordExample('${pair.word1.split(' ')[0]}')" class="p-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400 text-left text-xs transition">
+              <span class="text-amber-400 block font-bold">${pair.word1}</span>
+            </button>
+            <button onclick="playWordExample('${pair.word2.split(' ')[0]}')" class="p-2 rounded-xl bg-slate-900 border border-slate-700 hover:border-amber-400 text-left text-xs transition">
+              <span class="text-indigo-300 block font-bold">${pair.word2}</span>
+            </button>
+          </div>
+          <p class="text-[10px] text-slate-400 italic mt-1 leading-snug">
+            💡 ${pair.note}
+          </p>
+        `;
+      } else {
+        contrastBox.innerHTML = `
+          <div class="text-xs text-slate-400 italic">Âm này có vị trí phát âm đặc thù trong bảng KET.</div>
+        `;
+      }
+
+      document.getElementById('modal-play-sound-btn').onclick = () => playIsolatedSound(soundObj.symbol);
+      document.getElementById('modal-play-word-btn').onclick = () => playWordExample(soundObj.examples[0], soundObj.symbol);
+      document.getElementById('modal-play-combo-btn').onclick = () => playComboSound(soundObj.symbol);
+
+      const modal = document.getElementById('sound-modal');
+      modal.classList.remove('hidden');
+      modal.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      playIsolatedSound(soundObj.symbol);
+    }
+
+    function closeSoundModal() {
+      document.getElementById('sound-modal').classList.add('hidden');
+    }
+
+    function filterIPAGrid(filterType) {
+      currentFilteredCategory = filterType;
+
+      document.querySelectorAll('.ipa-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-slate-900', 'text-white');
+        btn.classList.add('bg-slate-100', 'text-slate-600');
+      });
+      const activeBtn = document.getElementById(`filter-btn-${filterType}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-slate-100', 'text-slate-600');
+        activeBtn.classList.add('bg-slate-900', 'text-white');
+      }
+
+      const monoSection = document.getElementById('group-mono');
+      const diphSection = document.getElementById('group-diph');
+      const consSection = document.getElementById('group-cons');
+
+      if (filterType === 'all') {
+        monoSection.classList.remove('hidden');
+        diphSection.classList.remove('hidden');
+        consSection.classList.remove('hidden');
+        renderIPAChart();
+        return;
+      }
+
+      if (filterType === 'mono') {
+        monoSection.classList.remove('hidden');
+        diphSection.classList.add('hidden');
+        consSection.classList.add('hidden');
+      } else if (filterType === 'diph') {
+        monoSection.classList.add('hidden');
+        diphSection.classList.remove('hidden');
+        consSection.classList.add('hidden');
+      } else if (filterType === 'cons') {
+        monoSection.classList.add('hidden');
+        diphSection.classList.add('hidden');
+        consSection.classList.remove('hidden');
+      } else if (filterType === 'unvoiced') {
+        monoSection.classList.add('hidden');
+        diphSection.classList.add('hidden');
+        consSection.classList.remove('hidden');
+        const filteredCons = IPA_DATA.consonants.filter(c => c.voice === 'unvoiced');
+        document.getElementById('consonants-grid').innerHTML = filteredCons.map(renderIPACardHTML).join('');
+      } else if (filterType === 'voiced') {
+        monoSection.classList.remove('hidden');
+        diphSection.classList.remove('hidden');
+        consSection.classList.remove('hidden');
+        const filteredCons = IPA_DATA.consonants.filter(c => c.voice === 'voiced');
+        document.getElementById('consonants-grid').innerHTML = filteredCons.map(renderIPACardHTML).join('');
+      } else if (filterType === 'long') {
+        monoSection.classList.remove('hidden');
+        diphSection.classList.remove('hidden');
+        consSection.classList.add('hidden');
+        const filteredMono = IPA_DATA.monophthongs.filter(m => m.isLong);
+        document.getElementById('monophthongs-grid').innerHTML = filteredMono.map(renderIPACardHTML).join('');
+      }
+    }
+
+    function toggleEarTrainingModal() {
+      const modal = document.getElementById('ear-training-modal');
+      const isHidden = modal.classList.contains('hidden');
+      if (isHidden) {
+        modal.classList.remove('hidden');
+        generateEarTrainingQuestion();
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function generateEarTrainingQuestion() {
+      const all = getAllSoundsList();
+      const randomIdx = Math.floor(Math.random() * all.length);
+      currentMysterySound = all[randomIdx];
+
+      const distractors = all
+        .filter(s => s.symbol !== currentMysterySound.symbol && s.category === currentMysterySound.category)
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
+
+      const options = [currentMysterySound, ...distractors].sort(() => 0.5 - Math.random());
+
+      const container = document.getElementById('ear-training-options');
+      container.innerHTML = options.map(opt => `
+        <button onclick="checkEarTrainingAnswer('${opt.symbol}')" class="py-4 px-3 rounded-2xl border-2 border-slate-200 hover:border-indigo-600 bg-slate-50 hover:bg-indigo-50 font-mono text-2xl font-black text-slate-800 transition active:scale-95 shadow-xs">
+          ${opt.symbol}
+        </button>
+      `).join('');
+
+      document.getElementById('ear-feedback').innerHTML = '';
+      playEarTrainingAudio();
+    }
+
+    function playEarTrainingAudio() {
+      if (currentMysterySound) {
+        playIsolatedSound(currentMysterySound.symbol);
+      }
+    }
+
+    function checkEarTrainingAnswer(selectedSymbol) {
+      const feedback = document.getElementById('ear-feedback');
+      if (selectedSymbol === currentMysterySound.symbol) {
+        earTrainingScore += 15;
+        document.getElementById('ear-score').innerText = earTrainingScore;
+        addXP(15);
+        feedback.className = "text-center min-h-[24px] text-xs font-bold text-emerald-600";
+        feedback.innerHTML = `🎉 CHÍNH XÁC! Đó là âm <strong>${currentMysterySound.symbol}</strong> (${currentMysterySound.name})!`;
+        confetti({ particleCount: 30, spread: 50, origin: { y: 0.6 } });
+        
+        setTimeout(() => {
+          generateEarTrainingQuestion();
+        }, 1300);
+      } else {
+        feedback.className = "text-center min-h-[24px] text-xs font-bold text-rose-600";
+        feedback.innerHTML = `❌ Chưa đúng rồi! Hãy chạm vào nút loa nghe lại và chọn lại nhé.`;
+      }
+    }
+
+    function toggleAccent() {
+      if (currentVoiceAccent === 'en-GB') {
+        currentVoiceAccent = 'en-US';
+        document.getElementById('voice-flag').innerText = '🇺🇸 US';
+        showToast("Đã chuyển sang giọng chuẩn Mỹ (en-US)");
+      } else {
+        currentVoiceAccent = 'en-GB';
+        document.getElementById('voice-flag').innerText = '🇬🇧 UK';
+        showToast("Đã chuyển sang giọng Cambridge Anh (en-GB)");
+      }
+    }
+
+    function addXP(amount) {
+      userXP += amount;
+      localStorage.setItem('ket_ipa_xp', userXP);
+      document.getElementById('user-xp').innerText = userXP;
+      showToast(`+${amount} XP! Cố lên bạn nhỏ 🌟`);
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.className = `fixed bottom-6 right-6 z-50 transform translate-y-0 opacity-100 transition-all duration-300 pointer-events-auto px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-sm font-bold ${type === 'success' ? 'bg-slate-900 text-amber-300 border border-slate-700' : 'bg-rose-600 text-white'}`;
+      
+      setTimeout(() => {
+        toast.className = "fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-sm font-bold";
+      }, 3000);
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white', 'shadow-sm', 'shadow-indigo-200');
+        btn.classList.add('text-slate-600', 'hover:bg-slate-100');
+      });
+
+      const targetContent = document.getElementById(`section-${tabId}`);
+      if (targetContent) targetContent.classList.remove('hidden');
+
+      const targetBtn = document.getElementById(`tab-btn-${tabId}`);
+      if (targetBtn) {
+        targetBtn.classList.remove('text-slate-600', 'hover:bg-slate-100');
+        targetBtn.classList.add('bg-indigo-600', 'text-white', 'shadow-sm', 'shadow-indigo-200');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const PRACTICE_QUESTIONS = [
+      { id: 1, ipa: "/kæt/", word: "cat", meaning: "con mèo", hint: "Thú cưng bắt chuột" },
+      { id: 2, ipa: "/hɔːs/", word: "horse", meaning: "con ngựa", hint: "Động vật bốn chân để cưỡi" },
+      { id: 3, ipa: "/haʊs/", word: "house", meaning: "ngôi nhà", hint: "Nơi để gia đình sinh sống" },
+      { id: 4, ipa: "/həʊˈtel/", word: "hotel", meaning: "khách sạn", hint: "Nơi nghỉ ngơi khi đi du lịch" },
+      { id: 5, ipa: "/ˈɡɑːd(ə)n/", word: "garden", meaning: "khu vườn", hint: "Nơi trồng hoa, cây cảnh quanh nhà" },
+      { id: 6, ipa: "/ˈlɪv.ɪŋ ˌruːm/", word: "living room", meaning: "phòng khách", hint: "Phòng có sofa, tivi để tiếp khách" },
+      { id: 7, ipa: "/ˈsiːlɪŋ/", word: "ceiling", meaning: "trần nhà", hint: "Phía trên cùng bên trong căn phòng" },
+      { id: 8, ipa: "/ˈmʌʃruːm/", word: "mushroom", meaning: "cây nấm", hint: "Cây hình cái ô ăn được hoặc mọc trong rừng" },
+      { id: 9, ipa: "/ˈrest(ə)rɒnt/", word: "restaurant", meaning: "nhà hàng", hint: "Nơi đến gọi món ăn uống" },
+      { id: 10, ipa: "/ˈprez(ə)nt/", word: "present", meaning: "món quà / hiện tại", hint: "Quà tặng sinh nhật hoặc giáng sinh" },
+      { id: 11, ipa: "/ˈevrideɪ/", word: "everyday", meaning: "hàng ngày", hint: "Diễn ra thường nhật mỗi ngày" },
+      { id: 12, ipa: "/ˈkʌbəd/", word: "cupboard", meaning: "tủ chén bát / tủ đựng đồ", hint: "Tủ bếp có cánh đựng chén đĩa" },
+      { id: 13, ipa: "/ˈwɔːdrəʊb/", word: "wardrobe", meaning: "tủ quần áo", hint: "Tủ lớn dùng để treo áo quần" },
+      { id: 14, ipa: "/ˈbʌbəl tiː/", word: "bubble tea", meaning: "trà sữa trân châu", hint: "Món đồ uống khoái khẩu của học sinh" },
+      { id: 15, ipa: "/ˈeɪnʃ(ə)nt/", word: "ancient", meaning: "cổ xưa, cổ kính", hint: "Có từ hàng ngàn năm trước (như Hy Lạp cổ)" },
+      { id: 16, ipa: "/əˈtæk/", word: "attack", meaning: "tấn công", hint: "Hành động lao vào đánh đối thủ" },
+      { id: 17, ipa: "/breɪk/", word: "break", meaning: "làm vỡ / giờ giải lao", hint: "Giờ nghỉ giữa các tiết học" },
+      { id: 18, ipa: "/ˈbʌtəflaɪ/", word: "butterfly", meaning: "con bướm", hint: "Côn trùng có đôi cánh rực rỡ sắc màu" },
+      { id: 19, ipa: "/ˈsentʃəri/", word: "century", meaning: "thế kỷ (100 năm)", hint: "Khoảng thời gian một trăm năm" },
+      { id: 20, ipa: "/kəˈmjuːnɪkeɪt/", word: "communicate", meaning: "giao tiếp, liên lạc", hint: "Nói chuyện, trao đổi thông tin với nhau" },
+      { id: 21, ipa: "/ˈdɪəri/", word: "dearly", alt: "dearie", meaning: "chân thành / thiết tha", hint: "Thường dùng trong văn phong viết thư hoặc tình cảm" },
+      { id: 22, ipa: "/ɪˈneɪbl/", word: "enable", meaning: "cho phép / kích hoạt", hint: "Làm cho điều gì đó có khả năng thực hiện" },
+      { id: 23, ipa: "/ˈfɪə(r)/", word: "fear", meaning: "nỗi sợ hãi", hint: "Cảm giác khi xem phim ma" },
+      { id: 24, ipa: "/ˈdʒaɪənt/", word: "giant", meaning: "khổng lồ / người khổng lồ", hint: "Có kích thước to lớn dị thường" },
+      { id: 25, ipa: "/ˈhjuːdʒ/", word: "huge", meaning: "to lớn, khổng lồ", hint: "Đồng nghĩa với enormous, very big" },
+      { id: 26, ipa: "/ˈhʌmbl/", word: "humble", meaning: "khiêm tốn, giản dị", hint: "Không khoe khoang tự phụ" },
+      { id: 27, ipa: "/ˌɪnfluˈentʃl/", word: "influential", meaning: "có tầm ảnh hưởng", hint: "Có sức tác động lớn tới người khác" },
+      { id: 28, ipa: "/ɪnˈvenʃn/", word: "invention", meaning: "phát minh", hint: "Sáng chế mới mẻ của các nhà khoa học" },
+      { id: 29, ipa: "/əˈplɔːd/", word: "applaud", meaning: "vỗ tay tán thưởng", hint: "Hành động đập hai bàn tay vào nhau sau buổi diễn" },
+      { id: 30, ipa: "/ˈmɑːvələs/", word: "marvelous", alt: "marvellous", meaning: "tuyệt vời, kỳ diệu", hint: "Đồng nghĩa với wonderful, fantastic" },
+      { id: 31, ipa: "/ˈmaɪkrəʊtʃɪp/", word: "microchip", meaning: "vi mạch điện tử", hint: "Con chip nhỏ xíu bên trong máy tính/điện thoại" },
+      { id: 32, ipa: "/ˌəʊpəˈreɪʃn/", word: "operation", meaning: "ca phẫu thuật / sự vận hành", hint: "Bác sĩ thực hiện trong phòng mổ" },
+      { id: 33, ipa: "/ˈpælɪs/", word: "palace", meaning: "cung điện, lâu đài", hint: "Nơi ở lộng lẫy của vua và hoàng gia" },
+      { id: 34, ipa: "/lʌɡˈʒʊəriəs/", word: "luxurious", meaning: "xa hoa, sang trọng", hint: "Khách sạn 5 sao đắt tiền" },
+      { id: 35, ipa: "/eəˈrəʊbɪks/", word: "aerobics", meaning: "thể dục nhịp điệu", hint: "Môn thể dục nhảy theo điệu nhạc sôi động" },
+      { id: 36, ipa: "/biːt/", word: "beat", meaning: "đánh bại / nhịp đập", hint: "Trái tim đang đập thình thịch" },
+      { id: 37, ipa: "/ˈkʊkəri bʊk/", word: "cookery book", alt: "cookbook", meaning: "sách dạy nấu ăn", hint: "Quyển sách ghi công thức các món ăn" },
+      { id: 38, ipa: "/daɪˈlaɪt/", word: "delight", alt: "daylight", meaning: "sự vui sướng / ánh sáng ban ngày", hint: "Hân hoan hoặc ánh nắng mặt trời" },
+      { id: 39, ipa: "/dɪˈzaɪnə(r)/", word: "designer", meaning: "nhà thiết kế", hint: "Người tạo mẫu thời trang hoặc đồ họa" },
+      { id: 40, ipa: "/mjuːˈziːəm/", word: "museum", meaning: "bảo tàng", hint: "Nơi trưng bày các hiện vật lịch sử" },
+      { id: 41, ipa: "/ˈeksəsaɪz/", word: "exercise", meaning: "bài tập / tập thể dục", hint: "Hít đất, chạy bộ rèn luyện sức khỏe" },
+      { id: 42, ipa: "/ˈfæs.ən.eɪ.tɪd/", word: "fascinated", meaning: "bị mê hoặc, cực kỳ thích thú", hint: "Rất lôi cuốn và say mê điều gì đó" },
+      { id: 43, ipa: "/ˈfʊtbɔːl/", word: "football", meaning: "bóng đá", hint: "Môn thể thao vua có 11 cầu thủ mỗi đội" }
+    ];
+
+    function updatePracticeProgress() {
+      const total = PRACTICE_QUESTIONS.length;
+      const solvedCount = Object.keys(solvedCards).length;
+      const percent = Math.round((solvedCount / total) * 100);
+
+      document.getElementById('practice-progress-bar').style.width = `${percent}%`;
+      document.getElementById('practice-progress-text').innerText = `${solvedCount}/${total}`;
+    }
+
+    function loadCard(index) {
+      if (index < 0) index = 0;
+      if (index >= PRACTICE_QUESTIONS.length) index = PRACTICE_QUESTIONS.length - 1;
+      currentCardIndex = index;
+
+      const q = PRACTICE_QUESTIONS[currentCardIndex];
+      document.getElementById('card-index-indicator').innerText = `CÂU HỎI: #${q.id} / ${PRACTICE_QUESTIONS.length}`;
+      document.getElementById('card-ipa').innerText = q.ipa;
+      document.getElementById('card-user-input').value = '';
+      document.getElementById('card-feedback').innerHTML = '';
+
+      const isSolved = solvedCards[q.id];
+      const badge = document.getElementById('card-status-badge');
+      if (isSolved) {
+        badge.className = "px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold";
+        badge.innerText = "✓ Đã hoàn thành (" + q.word + ")";
+      } else {
+        badge.className = "px-2.5 py-1 rounded-full bg-slate-100 text-slate-600";
+        badge.innerText = "Chưa giải";
+      }
+
+      document.getElementById('card-user-input').focus();
+    }
+
+    function playCurrentCardAudio() {
+      const q = PRACTICE_QUESTIONS[currentCardIndex];
+      playWordExample(q.word);
+    }
+
+    function checkCurrentAnswer() {
+      const q = PRACTICE_QUESTIONS[currentCardIndex];
+      const input = document.getElementById('card-user-input').value.trim().toLowerCase();
+      const feedback = document.getElementById('card-feedback');
+
+      if (!input) {
+        feedback.className = "text-rose-600";
+        feedback.innerText = "Vui lòng nhập từ tiếng Anh trước khi kiểm tra!";
+        return;
+      }
+
+      const isCorrect = (input === q.word.toLowerCase()) || (q.alt && input === q.alt.toLowerCase());
+
+      if (isCorrect) {
+        feedback.className = "text-emerald-600";
+        feedback.innerHTML = `🎉 CHÍNH XÁC! <strong>${q.word.toUpperCase()}</strong>: ${q.meaning}.`;
+        playWordExample(q.word);
+
+        if (!solvedCards[q.id]) {
+          solvedCards[q.id] = true;
+          localStorage.setItem('ket_ipa_solved', JSON.stringify(solvedCards));
+          addXP(20);
+          updatePracticeProgress();
+          confetti({ particleCount: 35, spread: 60, origin: { y: 0.7 } });
+        }
+        document.getElementById('card-status-badge').className = "px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-bold";
+        document.getElementById('card-status-badge').innerText = "✓ Đã hoàn thành (" + q.word + ")";
+
+        setTimeout(() => {
+          if (currentCardIndex < PRACTICE_QUESTIONS.length - 1) {
+            navigateCard(1);
+          }
+        }, 1200);
+
+      } else {
+        feedback.className = "text-rose-600";
+        feedback.innerHTML = `❌ Chưa đúng rồi! Hãy thử lại hoặc bấm "Gợi ý" nhé.`;
+      }
+    }
+
+    function showCurrentHint() {
+      const q = PRACTICE_QUESTIONS[currentCardIndex];
+      const feedback = document.getElementById('card-feedback');
+      feedback.className = "text-amber-700";
+      feedback.innerHTML = `💡 Gợi ý KET: <em>${q.hint}</em> (Nghĩa: ${q.meaning}) - Chữ cái đầu: <strong>${q.word[0].toUpperCase()}...</strong>`;
+    }
+
+    function navigateCard(direction) {
+      loadCard(currentCardIndex + direction);
+    }
+
+    function jumpToRandomCard() {
+      const randomIndex = Math.floor(Math.random() * PRACTICE_QUESTIONS.length);
+      loadCard(randomIndex);
+    }
+
+    function handleInputKeydown(e) {
+      if (e.key === 'Enter') {
+        checkCurrentAnswer();
+      }
+    }
+
+    function renderPracticeList(filteredList = PRACTICE_QUESTIONS) {
+      const container = document.getElementById('all-practice-grid');
+      container.innerHTML = filteredList.map(item => {
+        const isSolved = solvedCards[item.id];
+        return `
+          <div class="p-4 rounded-2xl border ${isSolved ? 'bg-emerald-50/40 border-emerald-200' : 'bg-slate-50 border-slate-200'} flex items-center justify-between gap-3">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold text-slate-400">#${item.id}</span>
+                <span class="font-mono font-bold text-indigo-700 text-sm">${item.ipa}</span>
+              </div>
+              <p class="font-bold text-slate-900 text-base">${item.word}</p>
+              <p class="text-xs text-slate-500">${item.meaning}</p>
+            </div>
+            <button onclick="playWordExample('${item.word}')" class="w-10 h-10 rounded-xl bg-white shadow-xs border border-slate-200 hover:border-indigo-400 text-slate-700 hover:text-indigo-600 flex items-center justify-center text-sm transition shrink-0" title="Nghe phát âm">
+              🔊
+            </button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function togglePracticeMode(mode) {
+      const interactiveEl = document.getElementById('practice-interactive-arena');
+      const listEl = document.getElementById('practice-list-arena');
+      const quizBtn = document.getElementById('mode-quiz-btn');
+      const listBtn = document.getElementById('mode-list-btn');
+
+      if (mode === 'quiz') {
+        interactiveEl.classList.remove('hidden');
+        listEl.classList.add('hidden');
+        quizBtn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-sm";
+        listBtn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+      } else {
+        interactiveEl.classList.add('hidden');
+        listEl.classList.remove('hidden');
+        renderPracticeList();
+        listBtn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-indigo-600 text-white shadow-sm";
+        quizBtn.className = "px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-slate-100 text-slate-700 hover:bg-slate-200";
+      }
+    }
+
+    function filterPracticeList() {
+      const query = document.getElementById('practice-search').value.toLowerCase();
+      const filtered = PRACTICE_QUESTIONS.filter(q => 
+        q.word.toLowerCase().includes(query) || 
+        q.ipa.toLowerCase().includes(query) || 
+        q.meaning.toLowerCase().includes(query)
+      );
+      renderPracticeList(filtered);
+    }
+
+    const LAB_PRESETS = [
+      {
+        word: "computer",
+        ipa: "/kəmˈpjuː.tə/",
+        syllables: [
+          { text: "kəm", stress: false, note: "Dấu huyền/nặng: 'cờm'", height: "h-14 bg-slate-700" },
+          { text: "pjuː", stress: true, note: "DẤU SẮC (Cao vút): 'PIÚ'", height: "h-32 bg-amber-400" },
+          { text: "tə", stress: false, note: "Dấu huyền: 'tờ'", height: "h-12 bg-slate-700" }
+        ],
+        explanation: "Từ có 3 âm tiết. Trọng âm chính rơi vào âm tiết thứ 2. Đọc theo ngữ điệu KET: Cờm - PIÚ - tờ!"
+      },
+      {
+        word: "restaurant",
+        ipa: "/ˈres.trɒnt/",
+        syllables: [
+          { text: "res", stress: true, note: "DẤU SẮC (Nhấn mạnh): 'RÉT'", height: "h-32 bg-amber-400" },
+          { text: "trɒnt", stress: false, note: "Dấu nặng/trầm: 'tròn-t'", height: "h-14 bg-slate-700" }
+        ],
+        explanation: "Từ phổ biến trong KET thường chỉ đọc 2 âm tiết (/ˈres.trɒnt/). Nhấn mạnh âm đầu tiên 'RÉT'!"
+      },
+      {
+        word: "communicate",
+        ipa: "/kəˈmjuː.nɪ.keɪt/",
+        syllables: [
+          { text: "kə", stress: false, note: "Huyền: 'cờ'", height: "h-12 bg-slate-700" },
+          { text: "mjuː", stress: true, note: "DẤU SẮC: 'MIÚ'", height: "h-32 bg-amber-400" },
+          { text: "nɪ", stress: false, note: "Huyền/nặng: 'nì'", height: "h-14 bg-slate-700" },
+          { text: "keɪt", stress: false, note: "Bằng/huyền: 'kệt'", height: "h-16 bg-slate-700" }
+        ],
+        explanation: "Có 4 âm tiết (4 nguyên âm: /ə/, /uː/, /ɪ/, /eɪ/). Trọng âm rơi vào âm thứ 2: cờ-MIÚ-nì-kệt!"
+      },
+      {
+        word: "banana",
+        ipa: "/bəˈnɑː.nə/",
+        syllables: [
+          { text: "bə", stress: false, note: "Huyền: 'bờ'", height: "h-12 bg-slate-700" },
+          { text: "nɑː", stress: true, note: "DẤU SẮC: 'NÁ'", height: "h-32 bg-amber-400" },
+          { text: "nə", stress: false, note: "Huyền: 'nờ'", height: "h-12 bg-slate-700" }
+        ],
+        explanation: "Từ kinh điển với 2 âm Schwa /ə/ ở hai đầu. Đọc theo ngữ điệu chuẩn: Bờ - NÁ - nờ!"
+      }
+    ];
+
+    let currentLabItem = LAB_PRESETS[0];
+
+    function renderLabPresets() {
+      const container = document.getElementById('preset-words-container');
+      container.innerHTML = LAB_PRESETS.map((item, idx) => `
+        <button onclick="loadLabWord(${idx})" class="px-3.5 py-1.5 rounded-xl border ${item.word === currentLabItem.word ? 'bg-indigo-600 text-white border-indigo-600 font-bold' : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-200 font-semibold'} text-xs sm:text-sm transition">
+          ${item.word}
+        </button>
+      `).join('');
+    }
+
+    function loadLabWord(index) {
+      currentLabItem = LAB_PRESETS[index];
+      renderLabPresets();
+
+      document.getElementById('lab-word').innerText = currentLabItem.word;
+      document.getElementById('lab-ipa').innerText = currentLabItem.ipa;
+      document.getElementById('lab-explanation').innerText = currentLabItem.explanation;
+
+      const visualBox = document.getElementById('syllables-visual-box');
+      visualBox.innerHTML = currentLabItem.syllables.map(s => `
+        <div class="flex-1 flex flex-col items-center justify-end h-full">
+          <div class="w-full ${s.height} rounded-2xl flex flex-col items-center justify-center p-2 text-center transition-all duration-300 shadow-md">
+            <span class="font-mono text-base sm:text-lg font-black ${s.stress ? 'text-slate-950' : 'text-slate-200'}">${s.text}</span>
+            <span class="text-[10px] ${s.stress ? 'text-slate-900 font-extrabold' : 'text-slate-400'}">${s.stress ? 'STRESSED (SẮC)' : 'UNSTRESSED'}</span>
+          </div>
+          <span class="text-xs text-amber-300 font-semibold mt-2">${s.note}</span>
+        </div>
+      `).join('');
+    }
+
+    function playLabAudio() {
+      playWordExample(currentLabItem.word);
+    }
+
+    window.onload = function() {
+      renderIPAChart();
+      loadCard(0);
+      updatePracticeProgress();
+      renderPracticeList();
+      renderLabPresets();
+      loadLabWord(0);
+    };
+  </script>
+</body>
+</html>
